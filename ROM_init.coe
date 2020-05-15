@@ -1,0 +1,30 @@
+;=============================================================================
+; File with the code nibbles preloaded in the code memory (ROM256x4)
+;=============================================================================
+;-- Code for the manuscript:
+;-- The Post’s Machine Reloaded
+;-- Design, Implementation and Programming of 
+;-- a Small and Functional CPU Prototype
+;=============================================================================
+;-- Author: Gerardo A. Laguna-Sanchez
+;-- Universidad Autonoma Metropolitana
+;-- Unidad Lerma
+;-- may.08.2020
+;------------------------------------------------------------------------------
+;
+; This .COE file specifies initialization values for a block
+; memory of depth=256, and width=4.
+; Only the first 8 nibles are specified. 
+; Values are specified in hexadecimal format:
+;
+memory_initialization_radix=16;
+memory_initialization_vector=
+1,
+6,
+0,
+7,
+5,
+0,
+0,
+3,
+7;
