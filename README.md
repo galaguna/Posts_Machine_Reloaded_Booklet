@@ -20,7 +20,7 @@ If you want to use this repository as a starting point of your project, you can 
 
 # Published
 
-"The Post’s Machine Reloaded: Design, Implementation and Programming of a Small and Functional CPU Prototype" is an English translated version of the original Spanish booklet, "La Maquina de Post actualizada", that I hope soon wil be available in ebook format (Open Edition), for free under CC BY-NC-SA license, at the editor web page:
+"The Post’s Machine Reloaded: Design, Implementation and Programming of a Small and Functional CPU Prototype" is an translated English version of the original Spanish booklet, "La Maquina de Post actualizada", that I hope soon wil be available in ebook format (Open Edition), for free under CC BY-NC-SA license, at the editor web page:
 
 * [CopIt-arXives](http://scifunam.fisica.unam.mx/mir/copit/index.html)
 
@@ -30,9 +30,9 @@ The ebook Post’s Machine Reloaded, my own translation of the Spanish Edition, 
 
 The booklet's source code, found in this repository, is kept synchronized with the refered ebook editions.
 
-## The Post’s Machine Reloaded - Original Spanish Edition: La Maquina de Post actualizada (Diseno, puesta en marcha y programacion del prototipo de un pequeno CPU funcional)
+## The Post’s Machine Reloaded - Original Spanish Edition: La M&aacute;quina de Post actualizada (Dise&ntilde;o, puesta en marcha y programaci&oacute;n del prototipo de un peque&ntilde;o CPU funcional)
 
-The tag [first_Spanish_edition](https://github.com/galaguna/Posts_Machine_Reloaded_Booklet/releases/tag/First_Spanish_Edition) correspond to the Spanish Edition of The Post’s Machine Reloaded as published by CopIt arXives.
+The tag [first_Spanish_edition](https://github.com/galaguna/Posts_Machine_Reloaded_Booklet/releases/tag/First_Spanish_Edition) correspond to the Spanish Edition of The Post’s Machine Reloaded as published by CopIt-arXives.
 
 <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/3.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/Text" property="dct:title" rel="dct:type">La Maquina de Post actualizada - Spanish Edition</span> by Gerardo A. Laguna-Sanchez </a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Creative Commons Attribution-NonCommercial-ShareAlike 3.0 International License</a>.
 
