@@ -6,7 +6,7 @@ Chapter 1 conceptualized the operation of the Enhanced Post’s Machine (EPM) an
 
 === Coding with the EPM instruction set
 
-Although the EPM's essential instruction set includes seven operations, a non-operating instruction (_nop_) will be added, which essentially consumes one machine cycle, resulting in a total of eight instructions for the functional architecture of the CPU to be performed. Since the total number of instructions is 8, 8 codes are also required for their numerical representation, each of which can be made up of three bits, since combinations with three bits are 2^3=8. Therefore, in the proposed design, 4-bit registers (nibbles) will be used to store the instruction codes in memory. This will make it possible to handle, with enough slack, the instruction codes while making it possible, for the parameters of some instructions, also to be fragmented and stored in groups of nibbles. Table 2.1 shows a summary for the specified instruction set as well as the proposed hexadecimal coding. It is clear that, since each segment of the code is composed of 4 bits or one nibble, only one hexadecimal digit is required for its representation (in this work, hexadecimal numbers are denoted with the prefix 0x).
+Although the EPM's essential instruction set includes seven operations, a non-operating instruction (_nop_) will be added, which essentially consumes one machine cycle, resulting in a total of eight instructions for the functional architecture of the CPU to be performed. Since the total number of instructions is 8, 8 codes are also required for their numerical representation, each of which can be made up of three bits, since combinations with three bits are 2^3=8. Therefore, in the proposed design, 4-bit registers (nibbles) will be used to store the instruction codes in memory. This will make it possible to handle, with enough slack, the instruction codes while making it possible, for the parameters of some instructions, also to be fragmented and stored in groups of nibbles. Table 1 shows a summary for the specified instruction set as well as the proposed hexadecimal coding. It is clear that, since each segment of the code is composed of 4 bits or one nibble, only one hexadecimal digit is required for its representation (in this work, hexadecimal numbers are denoted with the prefix 0x).
 
 In the particular case of jump instructions, _jmp_ and _jz_, note that each instruction code is accompanied by two additional nibbles that make up the destination address in absolute terms. Table 1, specifically regarding the destination address, indicates that nibble 2 contains the most significant bits (MSB), while nibble 3 contains the least significant bits (LSB). 
 
@@ -19,14 +19,14 @@ For the same reason, the data memory, which in this case represents the tape wit
 [options="header"]
 |=======
 |Instruction|Mnemonic|Nibble 1|Nibble 2|Nibble 3
-| No operation | nop | 0x0 |  |  |
-| Increment DP | incdp | 0x1 |  |  |
-| Decrement DP | decdp | 0x2 |  |  |
-| Set | set | 0x3 |  |  |
-| Clear | clr | 0x4 |  |  |
-| Jump | jmp | 0x5 | Add 7-4 | Add 3-0 |
-| Jump if zero | jz | 0x6 | Add 7-4 | Add 3-0 |
-| Stop | stop | 0x7 |  |  |
+| No operation | nop | 0x0 |  |  
+| Increment DP | incdp | 0x1 |  |  
+| Decrement DP | decdp | 0x2 |  |  
+| Set | set | 0x3 |  |  
+| Clear | clr | 0x4 |  |  
+| Jump | jmp | 0x5 | Add 7-4 | Add 3-0 
+| Jump if zero | jz | 0x6 | Add 7-4 | Add 3-0 
+| Stop | stop | 0x7 |  |  
 |=======
 
 === Machine language coding for EPM programs
