@@ -1,5 +1,5 @@
 [role="pagenumrestart"]
-[[ch03_Instruction_coding]]
+[[ch03_Logical_design]]
 == Logical design for the Enhanced Post’s Machine
 
 In Chapter 1 it was commented that the proposed logical design for the Enhanced Post’s Machine (EPM) contemplates a register pointing to code space, or instruction pointer register (IP), and a register pointing to data space, or data pointer register (DP), so it is clear that the proposed machine architecture is essentially of the Harvard type. Chapter 2 defined the binary coding for the instruction set and showed how to obtain the machine code for an EPM program. This chapter will present the detail of the logical design of a functional architecture for the upgraded Post’s Machine.
