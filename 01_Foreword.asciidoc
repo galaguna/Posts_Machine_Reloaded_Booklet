@@ -25,8 +25,12 @@ Finally, it is demonstrated that it is possible to build, with relatively limite
 In short, kind reader, I put the work at your disposal and I hope it will be of interest or, at least, of some use.
 
 Gerardo Abel Laguna-Sanchez
+
 Professor and researcher
+
 Information Systems and Computational Sciences Research Area
+
 Universidad Autonoma Metropolitana, Unidad Lerma
+
 g.laguna@correo.ler.uam.mx
 
