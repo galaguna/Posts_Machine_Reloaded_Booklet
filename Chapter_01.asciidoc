@@ -5,7 +5,7 @@
 === A little bit of history
 
 We can say that the beginnings of modern computing date back to the 19th century, when Charles Babbage and Ada Lovelace conceptualized the "Analytical Engine" (Bernstein, 1981). Thus, while Charles Babbage is recognized as one of the fathers of computing, Ada Lovelace has been credited with being the first female programmer in history. 
-The design of Charles Babbage's analytical engine included most of the functional blocks of a modern computer. Charles Babbage named them as follows (see <<Figure-1_1>>): 
+The design of Charles Babbage's analytical engine included most of the functional blocks of a modern computer. Charles Babbage named them as follows (see Figure 1): 
 
 * "Warehouse", 
 
@@ -25,7 +25,7 @@ image::figures/Figure_01_01.png["Figure_01_01"]
 image::figures/Figure_01_02.png["Figure_01_02"]
 
 
-Today, the same functional blocks remain, but some have updated their names: the "warehouse" corresponds to memory, the "mill" to the central processing unit or CPU, while the "control", "input" and "output" have remained with the same name (see <<Figure-1_2>>).  
+Today, the same functional blocks remain, but some have updated their names: the "warehouse" corresponds to memory, the "mill" to the central processing unit or CPU, while the "control", "input" and "output" have remained with the same name (see Figure 2).  
 
 It is assumed, since it was never completed, that Charles Babbage's analytical engine would be programmed through punch cards and that the "warehouse" would contain up to 1000 numbers of 50 digits each. In this machine the "control" would execute the sequence of operations indicated on the punch cards. The machine would even be able to perform loops (repeat one or more instructions the desired number of times) and could make decisions depending on the result of an intermediate calculation.
 
@@ -61,11 +61,11 @@ To begin with, it should be noted that the exercise proposed by Post is based on
 
 The specification for the operation of the Post’s Machine, taken as a basic reference the work of Uspenski (Uspenski, 1983), can be expressed relatively simply. The tangible structure of the Post Office Machine, or "hardware", would consist of the following:
 
-* A tape with cells and a read/write tape head (see <<Figure-1_3>>).
+* A tape with cells and a read/write tape head (see Figure 3).
 
 * Integer numbers are used to sort the cells on the tape.
 
-* The cells can be marked or unmarked. In <<Figure-1_3>>, the markings are indicated by an 'x'.
+* The cells can be marked or unmarked. In Figure 3, the markings are indicated by an 'x'.
 
 * The tape state is all the information that indicates which cells are marked and which are not. This information may change as the machine's operation develops.
 
@@ -174,7 +174,7 @@ A program is nothing more than a set of instructions and it is precisely by mean
 5. ifempty 4 else 3 
 ----
 
-Once the Post’s Machine is initialized, the instruction index points to instruction number 1 and the tape head is in front of cell number 0 on the tape. It is assumed that the tape has been preloaded with the initial data, for example, consider the initial state of the tape shown in <<Figure-1_4>>. At this point, the machine is ready to execute the program. <<Figure-1_5>> shows the status of the machine just at the beginning of the program execution.
+Once the Post’s Machine is initialized, the instruction index points to instruction number 1 and the tape head is in front of cell number 0 on the tape. It is assumed that the tape has been preloaded with the initial data, for example, consider the initial state of the tape shown in Figure 4. At this point, the machine is ready to execute the program. Figure 5 shows the status of the machine just at the beginning of the program execution.
 
 [[Figure-1_4]]
 .Initial state of the tape
@@ -185,7 +185,7 @@ image::figures/Figure_01_04.png["Figure_01_04"]
 image::figures/Figure_01_05.png["Figure_01_05"]
 
 
-Execution of instruction No. 1 involves marking the cell in turn, as shown in <<Figure-1_6>>, and then jump to instruction No. 4. When executing instruction No. 1, the machine is left as shown in <<Figure-1_7>>.
+Execution of instruction No. 1 involves marking the cell in turn, as shown in Figure 6, and then jump to instruction No. 4. When executing instruction No. 1, the machine is left as shown in Figure 7.
 
 [[Figure-1_6]]
 .Instruction No. 1: +print+.
@@ -196,7 +196,7 @@ image::figures/Figure_01_06.png["Figure_01_06"]
 image::figures/Figure_01_07.png["Figure_01_07"]
 
 
-Executing instruction No. 4 involves moving the tape head to the right, as shown in <<Figure-1_8>>, and then jump to instruction No. 5. When executing instruction No. 4, the machine is left as shown in <<Figure-1_9>>.
+Executing instruction No. 4 involves moving the tape head to the right, as shown in Figure 8, and then jump to instruction No. 5. When executing instruction No. 4, the machine is left as shown in Figure 9.
 
 [[Figure-1_8]]
 .Instruction No. 4: +rmov+
@@ -207,7 +207,7 @@ image::figures/Figure_01_08.png["Figure_01_08"]
 image::figures/Figure_01_09.png["Figure_01_09"]
 
 
-Execution of instruction No. 5 involves checking the status of the cell in front of the tape head, as shown in <<Figure-1_10>>, and then jump to instruction No. 4 if the cell is empty, or otherwise jump to instruction No. 3. Since the cell is empty, it imply jumping to instruction No. 4. When instruction No. 5 is completed, the machine is left as shown in <<Figure-1_11>>.
+Execution of instruction No. 5 involves checking the status of the cell in front of the tape head, as shown in Figure 10, and then jump to instruction No. 4 if the cell is empty, or otherwise jump to instruction No. 3. Since the cell is empty, it imply jumping to instruction No. 4. When instruction No. 5 is completed, the machine is left as shown in Figure 11.
 
 [[Figure-1_10]]
 .Instruction No. 5: +ifempty 4 else 3+
@@ -218,7 +218,7 @@ image::figures/Figure_01_10.png["Figure_01_10"]
 image::figures/Figure_01_11.png["Figure_01_11"]
 
 
-Again, execution of instruction No. 4 involves moving the tape head to the right, as shown in <<Figure-1_12>>, and then jump to instruction No. 5. When the instruction No. 4 is completed, the machine will be as shown in <<Figure-1_13>>.
+Again, execution of instruction No. 4 involves moving the tape head to the right, as shown in Figure 12, and then jump to instruction No. 5. When the instruction No. 4 is completed, the machine will be as shown in Figure 13.
 
 [[Figure-1_12]]
 .Instruction No. 4: +rmov+
@@ -229,7 +229,7 @@ image::figures/Figure_01_12.png["Figure_01_12"]
 image::figures/Figure_01_13.png["Figure_01_13"]
 
 
-It is the turn, again, to execute instruction No. 5. The status of the cell in front of the tape head is checked, as shown in <<Figure-1_14>>, and then, since the cell is marked, it implies jumping to instruction No. 3. After instruction No. 5 is completed, the machine is left as shown in <<Figure-1_15>>.
+It is the turn, again, to execute instruction No. 5. The status of the cell in front of the tape head is checked, as shown in Figure 14, and then, since the cell is marked, it implies jumping to instruction No. 3. After instruction No. 5 is completed, the machine is left as shown in Figure 15.
 
 [[Figure-1_14]]
 .Instruction No. 5: +ifempty 4 else 3+
@@ -240,7 +240,7 @@ image::figures/Figure_01_14.png["Figure_01_14"]
 image::figures/Figure_01_15.png["Figure_01_15"]
 
 
-Executing instruction No. 3 involves moving the tape head to the left, as shown in <<Figure-1_16>>, and then jump to instruction No. 2. When the instruction No. 3 is completed, the machine is left as shown in <<Figure-1_17>>.
+Executing instruction No. 3 involves moving the tape head to the left, as shown in Figure 16, and then jump to instruction No. 2. When the instruction No. 3 is completed, the machine is left as shown in Figure 17.
 
 [[Figure-1_16]]
 .Instruction No. 3: +lmov+
@@ -272,7 +272,7 @@ Having said that, one solution to the increment problem is to write a program fo
 4. stop
 ----
 
-Also, consider the initial state of the tape shown in <<Figure-1_18>> which, in essence, provides the number 3 as input. Therefore, if the program is working properly, at the end of its execution, it should leave a total of 4 consecutive marks on the tape, which corresponds to the number 4 as output data.
+Also, consider the initial state of the tape shown in Figure 18 which, in essence, provides the number 3 as input. Therefore, if the program is working properly, at the end of its execution, it should leave a total of 4 consecutive marks on the tape, which corresponds to the number 4 as output data.
 
 [[Figure-1_18]]
 .Number 3 representation as input for the increment program
@@ -283,9 +283,9 @@ image::figures/Figure_01_18.png["Figure_01_18"]
 image::figures/Figure_01_19.png["Figure_01_19"]
 
 
-Once the Post’s Machine is initialized, the instruction index points to instruction number 1 and the tape head is in front of cell number 0 on the tape. It is assumed that the tape has been preloaded with the input data, for example, with the number 3. At this point, the machine is ready to execute the increment program, as shown in <<Figure-1_19>>.
+Once the Post’s Machine is initialized, the instruction index points to instruction number 1 and the tape head is in front of cell number 0 on the tape. It is assumed that the tape has been preloaded with the input data, for example, with the number 3. At this point, the machine is ready to execute the increment program, as shown in Figure 19.
 
-Executing instruction No. 1 involves moving the tape head to the right, as shown in <<Figure-1_20>>, and then jump to instruction No. 2. After instruction No. 1 is completed, the machine is left as shown in <<Figure-1_21>>.
+Executing instruction No. 1 involves moving the tape head to the right, as shown in Figure 20, and then jump to instruction No. 2. After instruction No. 1 is completed, the machine is left as shown in Figure 21.
 
 [[Figure-1_20]]
 .Instruction No. 1: +rmov+
@@ -296,7 +296,7 @@ image::figures/Figure_01_20.png["Figure_01_20"]
 image::figures/Figure_01_21.png["Figure_01_21"]
 
 
-Executing instruction No. 2 involves checking the status of the cell in front of the tape head, as shown in <<Figure-1_22>>, and then jump to instruction No. 3 if the cell is empty, or otherwise jump to instruction No. 1. Since the cell is marked, it jumps to instruction No. 1. After the instruction No. 2 is completed, the machine is as shown in <<Figure-1_23>>.
+Executing instruction No. 2 involves checking the status of the cell in front of the tape head, as shown in Figure 22, and then jump to instruction No. 3 if the cell is empty, or otherwise jump to instruction No. 1. Since the cell is marked, it jumps to instruction No. 1. After the instruction No. 2 is completed, the machine is as shown in Figure 23.
 
 [[Figure-1_22]]
 .Instruction No. 2: +ifempty 3 else 1+
@@ -307,7 +307,7 @@ image::figures/Figure_01_22.png["Figure_01_22"]
 image::figures/Figure_01_23.png["Figure_01_23"]
 
 
-Execution of instruction No. 1 is repeated, moving the tape head to the right, as shown in <<Figure-1_24>>, and then jumping to instruction No. 2. After the second execution of instruction No. 1, the machine is left as shown in <<Figure-1_25>>.
+Execution of instruction No. 1 is repeated, moving the tape head to the right, as shown in Figure 24, and then jumping to instruction No. 2. After the second execution of instruction No. 1, the machine is left as shown in Figure 25.
 
 [[Figure-1_24]]
 .Instruction No. 1: +rmov+
@@ -318,7 +318,7 @@ image::figures/Figure_01_24.png["Figure_01_24"]
 image::figures/Figure_01_25.png["Figure_01_25"]
 
 
-Instruction No. 2 is executed again and checks the status of the cell in front of the tape head (see <<Figure-1_26>>), as the cell is marked, the machine jumps to instruction No. 1. After the instruction No. 2 is completed, the machine is left as shown in <<Figure-1_27>>.
+Instruction No. 2 is executed again and checks the status of the cell in front of the tape head (see Figure 26), as the cell is marked, the machine jumps to instruction No. 1. After the instruction No. 2 is completed, the machine is left as shown in Figure 27.
 
 [[Figure-1_26]]
 .Instruction No. 2: +ifempty 3 else 1+
@@ -329,7 +329,7 @@ image::figures/Figure_01_26.png["Figure_01_26"]
 image::figures/Figure_01_27.png["Figure_01_27"]
 
 
-For the third time, the execution of instruction No. 1 is repeated, moving the tape head to the right, as shown in <<Figure-1_28>>, and then jumping to instruction No. 2. After this third execution of instruction No. 1 is completed, the machine is left as shown in <<Figure-1_29>>.
+For the third time, the execution of instruction No. 1 is repeated, moving the tape head to the right, as shown in Figure 28, and then jumping to instruction No. 2. After this third execution of instruction No. 1 is completed, the machine is left as shown in Figure 29.
 
 [[Figure-1_28]]
 .Instruction No. 1: +rmov+
@@ -340,7 +340,7 @@ image::figures/Figure_01_28.png["Figure_01_28"]
 image::figures/Figure_01_29.png["Figure_01_29"]
 
 
-Now, instruction No. 2 is executed for the third time. The status of the cell in front of the tape head is checked (see <<Figure-1_30>>), but since this time the cell is empty, the machine jumps to instruction No. 3. After the third execution of instruction No. 2 is completed, the machine is left as shown in <<Figure-1_31>>.
+Now, instruction No. 2 is executed for the third time. The status of the cell in front of the tape head is checked (see Figure 30), but since this time the cell is empty, the machine jumps to instruction No. 3. After the third execution of instruction No. 2 is completed, the machine is left as shown in Figure 31.
 
 [[Figure-1_30]]
 .Instruction No. 2: +ifempty 3 else 1+
@@ -351,7 +351,7 @@ image::figures/Figure_01_30.png["Figure_01_30"]
 image::figures/Figure_01_31.png["Figure_01_31"]
 
 
-The execution of instruction No. 3 involves marking the cell in front of the tape head (see <<Figure-1_32>>) and then jump to instruction No. 4 (see <<Figure-1_33>>).
+The execution of instruction No. 3 involves marking the cell in front of the tape head (see Figure 32) and then jump to instruction No. 4 (see Figure 33).
 
 [[Figure-1_32]]
 .Instruction No. 3: +print+
@@ -362,7 +362,7 @@ image::figures/Figure_01_32.png["Figure_01_32"]
 image::figures/Figure_01_33.png["Figure_01_33"]
 
 
-Finally, the machine executes the instruction No. 4. As expected, its only function is to stop the execution of the program. Therefore, once instruction No. 4 is executed (see <<Figure-1_34>>), the tape contains the result of the operation which, in this case, shows four marks, i.e., number 4. If we consider that we started with three marks, to represent number 3, it is clear that the result of the program corresponds exactly with the increment operation.
+Finally, the machine executes the instruction No. 4. As expected, its only function is to stop the execution of the program. Therefore, once instruction No. 4 is executed (see Figure 34), the tape contains the result of the operation which, in this case, shows four marks, i.e., number 4. If we consider that we started with three marks, to represent number 3, it is clear that the result of the program corresponds exactly with the increment operation.
 
 [[Figure-1_34]]
 .Instruction No. 4: stop and final status of the tape with the result
@@ -377,7 +377,7 @@ Now, it is time to propose some improvements to the original Post’s Machine, i
 
 In order to build a digital system, to emulate the operation of a Post’s Machine, in this work we propose making some improvements to the original Uspenski specification (Uspenski, 1983). This variant will be called _Enhanced Post’s Machine_ or EPM. 
 
-First, the cell tape is replaced by a memory with addressing for N locations of 1 bit, where each data location can contain either a zero or a one, as shown in <<Figure-1_35>>. In this new representation, one cell corresponds to one data locality while the tape head corresponds to the register known as the _data pointer_ (DP) register, which indicates the address of the data locality in turn. 
+First, the cell tape is replaced by a memory with addressing for N locations of 1 bit, where each data location can contain either a zero or a one, as shown in Figure 35. In this new representation, one cell corresponds to one data locality while the tape head corresponds to the register known as the _data pointer_ (DP) register, which indicates the address of the data locality in turn. 
 
 Secondly, each data location is associated with an address with a non-negative integer. Thus, the first data locality has the address 0, while the last corresponds to N-1. The number of locations will now be finite, but this restriction can be overcome by designing the data space in the way of a circular buffer. In the latter case, when the DP register exceeds the last address, it returns to address 0.
 
@@ -485,23 +485,23 @@ In this case, a solution for the increment problem consists of a program that, s
 4. stop
 ----
 
-Also, consider the initial state of the machine shown in <<Figure-1_36>>, where the input data is number 2. Therefore, if the program is working properly, at the end of its execution, it should leave the machine with a total of 3 consecutive ones in the data memory, which corresponds to number 3 as a result of the increment operation.
+Also, consider the initial state of the machine shown in Figure 36, where the input data is number 2. Therefore, if the program is working properly, at the end of its execution, it should leave the machine with a total of 3 consecutive ones in the data memory, which corresponds to number 3 as a result of the increment operation.
 
 [[Figure-1_36]]
 .Initial state of the EPM and an increment program
 image::figures/Figure_01_36.png["Figure_01_36"]
 
 
-It is assumed that when initializing the Enhanced Post’s Machine, the instruction pointer register, IP, points to the 0 address of the code memory, while the data pointer register, DP, points to the 0 address of the data memory. It is also assumed that the memories, both the data memory and the code memory, have been preloaded, respectively, with the input parameter representation and with the machine codes for the instructions. At this point, the EPM is ready to execute the increment program as shown in <<Figure-1_36>>.
+It is assumed that when initializing the Enhanced Post’s Machine, the instruction pointer register, IP, points to the 0 address of the code memory, while the data pointer register, DP, points to the 0 address of the data memory. It is also assumed that the memories, both the data memory and the code memory, have been preloaded, respectively, with the input parameter representation and with the machine codes for the instructions. At this point, the EPM is ready to execute the increment program as shown in Figure 36.
 
-Executing the instruction in code address 0 involves to increment the data pointer register, DP, as shown in <<Figure-1_37>>. 
+Executing the instruction in code address 0 involves to increment the data pointer register, DP, as shown in Figure 37. 
 
 [[Figure-1_37]]
 .Instruction in code "address" 0: +incdp+
 image::figures/Figure_01_37.png["Figure_01_37"]
 
 
-Then it is the turn to execute the instruction at address 1 of the code. This instruction checks the status of the bit pointed out by the data pointer register, DP, and if it is zero it jumps to address 3 in the code space. If the revised bit is not zero, as is our case (see <<Figure-1_38>>), then it simply jumps to the next instruction in turn, in this case the one at address 2 of the code space. The status of the machine after the execution of this conditional jump instruction is shown in <<Figure-1_39>>.
+Then it is the turn to execute the instruction at address 1 of the code. This instruction checks the status of the bit pointed out by the data pointer register, DP, and if it is zero it jumps to address 3 in the code space. If the revised bit is not zero, as is our case (see Figure 38), then it simply jumps to the next instruction in turn, in this case the one at address 2 of the code space. The status of the machine after the execution of this conditional jump instruction is shown in Figure 39.
 
 [[Figure-1_38]]
 .Instruction in code "address" 1: +jz 3+
@@ -512,21 +512,21 @@ image::figures/Figure_01_38.png["Figure_01_38"]
 image::figures/Figure_01_39.png["Figure_01_39"]
 
 
-Under these circumstances, it is the execution turn of the instruction in address 2 of the code space, which simply load the instruction pointer register, IP, with the address 0, as can be seen in <<Figure-1_40>>. 
+Under these circumstances, it is the execution turn of the instruction in address 2 of the code space, which simply load the instruction pointer register, IP, with the address 0, as can be seen in Figure 40. 
 
 [[Figure-1_40]]
 .Instruction in code "address" 2: +jmp 0+
 image::figures/Figure_01_40.png["Figure_01_40"]
 
 
-Again, the instruction at address 0 is executed. This increment the data pointer register, DP, so that the machine status is left as illustrated in <<Figure-1_41>>.
+Again, the instruction at address 0 is executed. This increment the data pointer register, DP, so that the machine status is left as illustrated in Figure 41.
 
 [[Figure-1_41]]
 .Instruction in code "address" 0: +incdp+
 image::figures/Figure_01_4x.png["Figure_01_41"]
 
 
-For the second time, it is the turn to execute the conditional jump instruction allocated at address 1 of the code space (see <<Figure-1_42>>). The status of the bit pointed out by the data pointer register, DP, is checked and, since this time it is zero, the machine jumps to address 3 of the code space. The status of the machine, after the execution of this conditional jump instruction, is shown in <<Figure-1_43>>.
+For the second time, it is the turn to execute the conditional jump instruction allocated at address 1 of the code space (see Figure 42). The status of the bit pointed out by the data pointer register, DP, is checked and, since this time it is zero, the machine jumps to address 3 of the code space. The status of the machine, after the execution of this conditional jump instruction, is shown in Figure 43.
 
 [[Figure-1_42]]
 .Instruction in code "address" 1: +jz 3+
@@ -537,14 +537,14 @@ image::figures/Figure_01_42.png["Figure_01_42"]
 image::figures/Figure_01_43.png["Figure_01_43"]
 
 
-As a result of the conditional jump, it is time to execute the instruction at address 3 of the code, which simply writes a 1 in the location indicated by the data pointer register, DP, as can be seen in <<Figure-1_44>>. 
+As a result of the conditional jump, it is time to execute the instruction at address 3 of the code, which simply writes a 1 in the location indicated by the data pointer register, DP, as can be seen in Figure 44. 
 
 [[Figure-1_44]]
 .Instruction in code "address" 3: +set+
 image::figures/Figure_01_44.png["Figure_01_44"]
 
 
-Finally, it is the execution turn for the instruction stored at address 4 of the code space. This is the stop instruction and once executed, the machine stops the execution of the program and its status is left as shown in <<Figure-1_45>>. It is clear that it is an increment program, taking into account that at the beginning there was a sequence of two consecutive bits in the data space (representing the number 2) while at the end there is a sequence of three consecutive bits (representing the number 3).
+Finally, it is the execution turn for the instruction stored at address 4 of the code space. This is the stop instruction and once executed, the machine stops the execution of the program and its status is left as shown in Figure 45. It is clear that it is an increment program, taking into account that at the beginning there was a sequence of two consecutive bits in the data space (representing the number 2) while at the end there is a sequence of three consecutive bits (representing the number 3).
 
 [[Figure-1_45]]
 .Instruction in code "address" 4: +stop+ and final status of the EPM
@@ -568,4 +568,3 @@ Low-level programming language:: Its instructions employ simple mnemonic that re
 Also, programs can be written to translate instructions from source code to machine code. If the source code is written in a medium or high-level language, this type of translator program is known as a "compiler-liker". Furthermore, if the source code is written in assembler, then the translator program is simply called an "assembler". 
    
 Having said that, it can be noted that, in the particular case of the Post’s Machine studied in this work, the syntax presented for the set of instructions corresponds to that of a typical modern assembly language. Later on, we will see how it is possible to obtain the machine code for the Enhanced Post’s Machine, to be loaded for execution, from a source program written in assembler.
-
