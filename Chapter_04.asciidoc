@@ -1,0 +1,129 @@
+[role="pagenumrestart"]
+[[ch04_Interface_specification]]
+== Interface specification for the Enhanced Post’s Machine prototype
+
+Once the general logical design of the Enhanced Post’s Machine has been proposed with its fundamental aspects, as seen in the previous chapter, it is possible to work in a particular logical design, subject to the constraints of real and specific hardware. This chapter presents the specification of a practical design that includes the I/O interface, making the machine fully functional and useful.
+
+=== The input/output interface
+
+Computer machines would be useless if humans could not interact with them to load input data, start program execution and retrieve the result of processing performed on the input data. That is why an input/output (I/O) interface is required. The specification of an input/output interface, for the Enhanced Post’s Machine developed up to this point, will allow the definition of the minimum hardware requirements for the practical realization of a prototype.
+
+If we assume that the most important is to be able to load the data, start the execution of the program and, finally, recover the result, we can propose very different ways to solve these requirements. Although the possible solutions are infinite, the reality is that the final design is subject to the restrictions of the system. For all these reasons, we must start from the definition of the hardware with which we are going to work.
+
+For the prototype presented here, whose purposes are exclusively didactic and pedagogical, a low-cost development board containing an FPGA circuit and sufficient input/output elements such as switches, buttons, LEDs and 7-segment LED display devices will be enough.
+
+FPGA devices are programmable integrated circuits containing thousands of logic cells, as well as sufficient memory and registers, and can be conFigured in arrays to emulate the operation of combinatorial and sequential logic circuits. In fact, modern FPGA circuits can be considered rather as complete systems encapsulated in a single chip (System on Chip), since they not only contain the necessary programmable logic, but also clocks, memory for data and code, and even powerful microprocessors.
+
+In our case, the resources traditionally available in all FPGAs, i.e. programmable logic and memory banks, will be used. This is so, because it is a question of showing how it is possible to make an own design for a microprocessor device, or CPU, and not to use an already existing one.
+
+Regarding the input/output devices, we will restrict ourselves to a very simple interface consisting of the switches, buttons, LEDs and 7-segment display devices, all these normally found on any FPGA development board. This decision is justified insofar as a compact and economical design is aspired to. At the same time, with the input/output interface being so rudimentary, the user and programmer of the prototype is required to have a good understanding of the architecture of the machine design in order to be able to use it profitably. The latter clearly has great pedagogical advantages.
+
+=== I/O interface sketch for the EPM prototype
+
+Starting from the outline for the MPM architecture presented in figure 1 in the previous chapter, we can now represent the equivalent for the I/O interface. Both in figure 1 and in the diagram in figure 2 of the previous chapter, it is assumed that the code and data space have been preloaded, respectively, with the program and with the input data. Although this is undoubtedly perfectly possible, it is not clear how the user programmer can review the result of the program. In fact, in this first approach to the architecture for the MPM, there is no interface that allows the user to access the data memory space, since it is for the exclusive use of the CPU (Post CPU).
+
+So, how can the user access the data memory space? The answer is that the user can only do so until an interface is added to it. One solution is to have a control mechanism for data memory space to be shared by both the CPU and an I/O unit. The concrete proposal is that there should be a signal to allow switching between two possible modes of operation:
+
+* Execution mode (1st approach):: In this mode of operation, access to data memory is exclusive to the CPU and is understood to be for the purpose of processing the information it contains.
+
+* Manual access mode (1st approach):. In this operating mode, access to the data memory is exclusive to the user, through an input/output unit designed specifically for this purpose.
+
+Therefore, while the sketch for the MPM hardware in figure 1 of the previous chapter, refers to its operation in run mode, the sketch for its operation in manual access mode is the one shown in figure 1 of this chapter. Note that in this second mode, the CPU Unit is replaced by the I/O unit and it is through this unit that the user has access to the contents of the data space, both to read and write it.
+
+[[Figure-4_1]]
+.Sketch for EPM architecture in manual RAM access mode.
+image::figures/Figure_04_01.png["Figure_04_01"]
+
+The technique proposed for switching between the modes of operation of the EPM, as well as for selecting the source of the data memory control signals, is the use of simple multiplexers at each point of interest. The block diagram with some details of this solution is shown in Figure 2. 
+
+In the diagram of Figure 2, it can be seen that five multiplexers and the control signal exec_mode have been added with respect to the original design in Figure 2 of the previous chapter. The latter signal is precisely the one that allows switching between the two modes of operation. When the exec_mode signal has a level of one logical (high), the system operates in the execution mode while, in the opposite case, when a level of zero logical (low) is applied, the system operates in the manual access mode.
+
+The multiplexers route, in accordance with the exec_mode signal, one of the two possible sources for the signals that control the operation of the data memory block (RAM 256x1). The four control signals: wea, ena, clka, the din input data line and the addra address bus can be fed either by the CPU (Post CPU), automatically, or by the user/programmer, manually. In this way, it only remains to specify the mechanisms and devices through which the user determines the status of all these signals, useful when the machine is in manual access mode.
+ 
+Then it is the turn of the interface specification to determine the status of each of the signals that the user has the possibility to control, either in execution mode or in manual access mode.  
+
+[[Figure-4_2]]
+.Block diagram of the proposed architecture, for an EPM practical implementation, including the operation mode switching mechanism.
+image::figures/Figure_04_02.png["Figure_04_02"]
+
+=== Minimal I/O hardware
+
+As already mentioned, in order to interact with the EPM, a very simple I/O interface will be used. It is assumed that the following minimum resources are available (see Figure 3):
+
+* 16 switches, identified as SW0 to SW15.
+
+* 5 push buttons, identified as BTNU (up button), BTNR (right button), BTND (down button), BTNL (left button) and BTNC (center button).
+
+* 16 LEDs, identified as LD0 to LD15.
+
+* 4 7-segment LED display devices, identified as DISPA1 to DISPA3.
+
+This hardware will then be used to operate the prototype of the system in question, both in execution mode and in manual access mode.
+
+[[Figure-4_3]]
+.Minimal hardware for the I/O interface of the EPM prototype.
+image::figures/Figure_04_03.png["Figure_04_03"]
+
+Taking into account the available hardware, the operation of the required prototype can be specified in more detail:
+
+* Execution mode (2nd approach):: When the execution mode selector switch is ON, the central processing unit emulating the Post’s Machine (Post CPU) executes the code stored in ROM and, from these instructions, processes the data stored in RAM. In this case, the 7-segment LED display devices show the current state of the sequential circuit that governs the machine cycle operation of the EPM.
+
+* Manual access mode (2nd approach):: When the execution mode selector switch is set to OFF, the CPU Unit releases control over the RAM block and allows the user to read and write to it. In this case, the 7-segment LED displays the value of the bit contained in the RAM location that is addressed by the corresponding switches.  
+
+Now we can specify the function of each of the input devices in the system. We'll start with the switches: 
+
+SW15 switch (Operation mode):: This switch is assigned the function of determining the level applied to the signal that sets the operating mode of the EPM (exec_mode).  If this switch is in the ON position, this means that the machine is operating in execution mode. Otherwise, if the switch is in the OFF position, the machine operates in the manual access mode.
+
+SW14 switch (Manual RAM Enable):: This switch is used to determine, in manual operation mode, the level applied to the signal that enables the data memory (manm_en). The user can access the data memory only when this switch is in the ON position. 
+
+SW13 switch (Manual write enable to RAM):: This switch is used to indicate, in manual operation mode, the level applied to the signal that specifies whether the data memory is operating in write or read mode (manm_we). If this switch is in the ON position, this means that the memory is operating in write mode. Otherwise, if the switch is in the OFF position, the memory operates in the read mode.
+
+SW12 switch (Bit to write in the RAM):: In manual mode, this switch is used to define the level applied to the signal representing the value of the bit to be written to the data memory (manm_din). If this switch is in the ON position, this means that a logical one is to be written. Otherwise, if the switch is in the OFF position, this means that a logical zero will be written.
+
+Switches SW8-SW11 (Reserved):: Their use within the logical design is reserved for future applications, however they can serve in the present design, physically and visually, as guard markers to separate the switch sections. 
+
+Switches SW0-SW7 (RAM location address):: In manual mode, these switches are used to encode in binary (manm_add) the address to be accessed within the range 0-255. Following the same logic used so far, a switch in ON represents a logical one, while in OFF position it represents the logical zero. Switch SW0 corresponds to the least significant bit, while switch SW7 corresponds to the most significant bit.
+
+Regarding the push buttons, we have the following functions assigned:
+
+BTNU button (Start pulse sequence for RAM clock):: In manual mode, this button allows the user to start and complete a read or write cycle. Strictly speaking, by pressing this button, a pulse is applied to the manm_clk signal and the user thereby indicates to the system that it must generate the complete sequence of two pulses required, at the clka input, to complete a read or write cycle in memory. 
+
+The curious reader can check, within the VHDL code, that the BTNU button is indeed just the input for a circuit cascade consisting of a debouncing block (deboucing_3tics component) and then a block generating a two-pulse sequence (doublepulse_generator component) which is finally applied to the corresponding input of the multiplexer feeding the RAM clka signal.
+
+BTNC button (System Reset):: It is essential to reset the system, using this button, before starting to work with the EPM. By pressing this button, a pulse is applied to the sys_rst signal and the machine goes to its initial state.
+
+BTNR button (Start execution of the program stored in the ROM):: This button is for use in execution mode only. By pressing this button, a pulse is applied to the run_sig signal and the EPM machine starts the processing of the machine cycles that allow fetch, decode, and execute each of the instructions previously loaded in the code memory (ROM 256x4).         
+
+It is the turn of the function specification for each of the output devices in the system. We'll start with the LED devices, for discreet signaling:
+
+LED0 to LED15 (Switch status display):: The LEDs are associated, one by one, with the switches immediately below them. At least for switches in use in the logic design, the LEDs should reflect the state of the corresponding switches. Namely, an LED is on when the associated switch is in the ON position. Conversely, an LED will remain off while the associated switch is in the OFF state.
+
+Finally, for the 7-segment LED display devices, the following can be specified:
+
+DISPA1 to DISPA4 (EPM State / Read Bit):: The 7-segment LED display devices, being alpha-numeric signaling elements, allow information to be displayed in a more user-friendly format. In particular, it is possible to opt for the representation of values in hexadecimal format, which would allow the display of the 16 possible combinations of a nibble or group of 4 bits with just one character. The 7-segment LED displays allow information to be displayed, depending on the machine's operating mode, in two contexts:
+
+* When the system is in execution mode, the alpha-numeric characters show the hexadecimal code number that identifies the sequential machine state, in strict correspondence with the logical design ASMD charts.
+
+* When the system is in manual access mode, the alpha-numeric characters show the last value read from data memory (RAM 256x1). In this particular case, these values can only be 0 or 1 and it is to be expected that each time a read or write cycle is completed by the user, the contents of the register addressed by switches SW0-SW7 will be displayed.  
+
+=== Practical considerations on the operation and programming of the EPM prototype
+
+To conclude the details of the practical specification presented in this chapter, it is important to comment on some aspects of the operation and programming of the proposed prototype.
+
+First, it should be noted that the function specified for alpha-numeric display devices assumes that the speed at which the machine works is slow enough to allow a human to follow the state sequence through reading the 7-segment LED display. This is a technical detail that is easily solved by slowing down the CPU clock with respect to the board system clock that is going to be used for the practical realization of the prototype. This is necessary because system clocks normally oscillate at frequencies that are typically in the order of hundreds of MHz. If the clock feeding the EPM CPU were not slowed down, program execution would be so fast that absolutely nothing would be seen in the alpha-numeric display. Of course, this is only due to the didactic purposes of the prototype, but it is clear that the user can modify the VHDL code to speed up the CPU execution it is considered necessary.  
+
+Secondly, taking into account all the information that has been presented, it should be more or less clear to the reader that it is precisely through the I/O interface that the programmer/user can take a "look" into the data memory to review the initial content of the memory, before executing a program, as well as the final content or result, after the conclusion of the executed program. Thus, by means of the rudiments explained in this chapter and having a prototype that complies with such functional specification, the user can read the input data and also the result of the processing carried out on it. Moreover, thanks to the proposed interface, it is not only possible to read the data space but also to write it, so that it is perfectly feasible that the user load or modify the input data manually.  
+
+Very well, the above clarifies, more or less, how the programmer using the EPM prototype can preload and modify the data of a program. However, this does not explain how the program being executed was preloaded into the ROM. To solve this question, the following must be taken into account:
+
+* In the proposed design, the ROM (ROM 256x4), which is where the program's machine codes are stored, does not have any I/O interface to review, much less modify, its contents.
+
+* There is no assembler program, therefore, any program that needs to be executed by the EPM prototype, in principle, must be hand-coded to have the sequence of nibbles that constitute the program machine code. 
+
+Regarding the first consideration, it can be commented here that, in fact, it is assumed that the program code must be preloaded in the code memory at the moment of synthesizing the hardware with the FPGA to be used for the practical realization of the prototype. Appendix explains in sufficient detail how this is done with the help of a file with the necessary data.footnote:[In our case, where the IP memory blocks of the manufacturer Xilinx are used, they are specifically the files with extension .coe: RAM_init.coe and ROM_init.coe.] In fact, it can be seen that the same mechanism used to preload the contents of the code memory (ROM 256x4), is exactly the same as that used to preload the input data into the data memory (RAM 256x1). 
+
+Regarding the second consideration, this apparent drawback can actually be an excellent motivation for a proactive reader, with some knowledge of computation, to make his own syntactic and lexical parser program to process the file with the source code and, from the instruction mnemonics, automatically generate the corresponding machine code.  
+
+To finish this last chapter, it only remains to recommend the reader to consult the appendix of this work, in order to be able to realize the construction of a functional prototype for the EPM. The VHDL code encoding the specified hardware based on the ASMD charts presented in Chapter 3 and the functional description of the I/O interface presented in this chapter. This code allows the practical realization of a functional prototype if an FPGA development board containing the minimum hardware resources suggested here is available, as demonstrated in Appendix, in practical form, where specific instructions are given for the implementation of the prototype using the relatively low-cost development board known commercially as Basys3 and manufactured by Digilent Company (Digilent, 2017).  
+
+
