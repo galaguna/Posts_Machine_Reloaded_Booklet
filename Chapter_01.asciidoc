@@ -120,42 +120,42 @@ Although the original Post’s Machine does not allow the "operator" to delete e
 
 The six Post’s Machine instructions, denoted by the syntax proposed in this work, will be explained in more detail below.
 
-I. Right move instruction:: It is denoted by the syntax:
+Right move instruction:: It is denoted by the syntax:
 ----
 				i. rmov, j
 ----
 and reads, "Instruction i commands the machine to move the tape head one cell to the right and continue with instruction j".
 
 
-II. Left move instruction:: It is denoted through the syntax:
+Left move instruction:: It is denoted through the syntax:
 ----
 				i. lmov, j
 ----
 and reads, "Instruction i commands the machine to move the tape head one cell to the left and continue with instruction j".
 
 
-III. Print instruction:: It is denoted by the syntax:
+Print instruction:: It is denoted by the syntax:
 ----
 				i. print, j
 ----
 and reads, "Instruction i commands the machine to mark the cell at the tape head position and continue with instruction j".
 
 
-IV. Clear instruction:: It is denoted through the syntax:
+Clear instruction:: It is denoted through the syntax:
 ----
 				i. clr, j
 ----
 and reads, "Instruction i commands the machine to clear the cell at the tape head position and continue with instruction j".
 
 
-V. Conditional jump instruction:: It is denoted by the syntax:
+Conditional jump instruction:: It is denoted by the syntax:
 ----
 				i. ifempty j1 else j2
 ----
 and reads, "Instruction i commands the machine to continue with instruction j1, if the cell in the tape head position is empty, or with instruction j2, if the cell is marked".
 
 
-VI. Stop instruction:: It is denoted through the syntax:
+Stop instruction:: It is denoted through the syntax:
 ----
 				i. stop
 ----
@@ -416,7 +416,7 @@ It should be noted that, in the Enhanced Post’s Machine, the program operates 
 
 The seven indispensable instructions of the Enhanced Post’s Machine, together with its syntax, are detailed below.
 
-I. DP (data pointer register) increment instruction:: It is denoted by the syntax:
+DP (data pointer register) increment instruction:: It is denoted by the syntax:
 ----
 				i. incdp
 ----
@@ -425,7 +425,7 @@ and reads, "The instruction in code address i commands the machine to increment 
 It is important to mention that real digital systems are subject to restrictions imposed by the size of the memory, which is why pointers are usually associated with a finite data structure. We will assume that the data structure to contain the data is an N-size circular buffer, where the lower location has the address 0, while the upper location has the address N-1. In a circular buffer, when the DP register reaches the upper end (N-1), increasing it forces it to take the value 0. 
 
 
-II. DP (data pointer register) decrement instruction:: It is denoted through the syntax:
+DP (data pointer register) decrement instruction:: It is denoted through the syntax:
 ----
 				i. decdp
 ----
@@ -434,35 +434,35 @@ and reads, "The instruction in code address i commands the machine to decrement 
 Under the same assumption, using a circular buffer of size N, when the DP register is at the bottom end (0), decreasing it forces it to take the maximum value (N-1).
 
 
-III. Set instruction:: It is denoted by syntax:
+Set instruction:: It is denoted by syntax:
 ----
 				i. set
 ----
 and reads, "The instruction in code address i commands the machine to write 1 at the location indicated by the data pointer register".
 
 
-IV. Clear instruction:: It is denoted through the syntax:
+Clear instruction:: It is denoted through the syntax:
 ----
 				i. clr
 ----
 and reads, "The instruction in code address i commands the machine to write 0 at the location indicated by the data pointer register".
 
 
-V. Jump instruction:: It is denoted by syntax:
+Jump instruction:: It is denoted by syntax:
 ----
 				i. jmp j
 ----
 and reads, "The instruction in code address i commands the machine to jump to the instruction in code address j".
 
 
-VI. Jump if zero instruction:: It is denoted through the syntax:
+Jump if zero instruction:: It is denoted through the syntax:
 ----
 				i. jz j
 ----
 and reads, "The instruction in code address i commands the machine to jump to the instruction in code address j if the bit indicated by the data pointer register is zero".
 
 
-VII. Stop instruction:: It is denoted by the syntax:
+Stop instruction:: It is denoted by the syntax:
 ----
 				i. stop
 ----
@@ -523,7 +523,7 @@ Again, the instruction at address 0 is executed. This increment the data pointer
 
 [[Figure-1_41]]
 .Instruction in code "address" 0: _incdp_
-image::figures/Figure_01_4x.png["Figure_01_41"]
+image::figures/Figure_01_41.png["Figure_01_41"]
 
 
 For the second time, it is the turn to execute the conditional jump instruction allocated at address 1 of the code space (see Figure 42). The status of the bit pointed out by the data pointer register, DP, is checked and, since this time it is zero, the machine jumps to address 3 of the code space. The status of the machine, after the execution of this conditional jump instruction, is shown in Figure 43.
