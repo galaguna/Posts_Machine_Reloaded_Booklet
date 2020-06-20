@@ -1,0 +1,228 @@
+[role="pagenumrestart"]
+[[ch03_Instruction_coding]]
+== Logical design for the Enhanced Post’s Machine
+
+In Chapter 1 it was commented that the proposed logical design for the Enhanced Post’s Machine (EPM) contemplates a register pointing to code space, or instruction pointer register (IP), and a register pointing to data space, or data pointer register (DP), so it is clear that the proposed machine architecture is essentially of the Harvard type. Chapter 2 defined the binary coding for the instruction set and showed how to obtain the machine code for an EPM program. This chapter will present the detail of the logical design of a functional architecture for the upgraded Post’s Machine.
+
+The binary coding for the EPM instruction set is taken as a basis and, from this, the operation of the sequential logic circuit that supports the machine cycle (fetch-decode-execute) is specified. This specification is made with a design approach at Register Transfer Level or RTL and is described by means of ASMD charts (Algorithmic State Machine with a Data path). 
+
+=== Proposed architecture for the practical implementation of the EPM
+
+Figure 1 shows an outline of the proposed architecture for a prototype capable of running programs for the Enhanced Post’s Machine, as described so far. Figure 2 shows the same architecture in more detail. The CPU itself, which contains the micro-code for the operation of the system's machine cycles, is denoted, in the diagram of Figure 2, as "Post CPU". This central processing unit has the Logic Unit (LU) at its heart. Note that it is not declared as an ALU (acronym for Arithmetic Logic Unit), but only as a Logic Unit. This is because no arithmetic operations are included in the instruction set. This does not mean that the proposed system cannot execute algorithms that perform functions equivalent to arithmetic operations, but only that the central processing unit does not perform them at the machine code level. In particular, with the EPM it is perfectly possible to solve arithmetic problems as they are all computable problems.
+
+In both Figures 1 and 2, it can be seen that two addressing buses are output from the Post CPU block: the 8-bit code space address bus (code_add) and the 8-bit data space address bus (data_add). The code_add bus indicates the read-only memory block (ROM 256x4) the address of the instruction to be read; therefore, the source of that address is in the Instruction Pointer register (IP). On the other hand, the data_add bus indicates to the random access memory block (RAM 256x1) the address of the data location being operated, that is why the source of that address is in the Data Pointer register (DP).
+
+[[Figure-3_x]]
+.Sketch for the EPM architecture.
+image::figures/Figure_03_0x.png["Figure_03_0x"]
+
+The code memory (ROM 256x4) is the space where the program must be preloaded with the sequence of instructions to be executed, while the data memory (RAM 256x1) is the space corresponding to a tape of 256 cells, where the initial state of the data (the input data) and the final state of the same (the output data) are stored. The code memory is Read Only Memory (ROM) as the CPU will never write anything into it, it only reads the instructions that are executed. However, the data memory is a static Random Access Memory (RAM) and, therefore, it can be read and written. This last memory space is what allows us to emulate the tape and its cells. Each register of a bit is a cell, so that the marks are represented by ones, while the absence of marks is indicated by zeros.  
+
+Both memory blocks are synchronous circuits, which is why they include a clock input (clka). They also include an enabling signal (ena), an addressing bus (addra) and an output data bus (douta). The main difference between RAM and ROM is that the latter can only be read and therefore does not require a control signal to indicate the nature of the operation (read/write) nor an input data bus. Since RAM can be read and written, it includes the read/write control signal (wea) and also the input data bus (dina).
+
+It is assumed that the operation of the memory blocks is governed by both the clock signal and the status of the control signals. If, in addition, we specify that the memory blocks that we are going to use are those that Xilinx, the manufacturer of the FPGA that we are going to use for the practical realization of the prototype, calls as native blocks in the "Write First Mode" (Xilinx, 2017), then we can explain the sequence of steps for each of the write/read cycles (see diagram in Figure 2).
+
+RAM read cycle:: The CPU, prior to a first rising edge in the clock signal (clka), places the direction of interest in the address bus (addra), keeps the write enable signal (wea) low and raises the device enable signal (ena). This indicates to the memory block that a reading is to be made, so that on the second rising edge of the clock signal (clka), the information available at the indicated location is available on the output data bus (douta).   
+
+RAM write cycle:: The CPU, prior to a first rising edge in the clock signal (clka), places the address of interest in the address bus (addra), places the desired information in the input data bus (dina), raises the write enable signal (wea) and also raises the device enable signal (ena). This indicates to the memory block that a write is to be performed, therefore, at the second rising edge of the clock signal (clka), the data placed at the input (dina) is saved in the location with the indicated address and is also sent to the output data bus (douta).   
+
+ROM read cycle:: The CPU, prior to a first rising edge in the clock signal (clka), places the address of interest in the address bus (addra) and raises the device enable signal (ena). With all this, the memory block is indicated that a reading is to be made, therefore, on the second rising edge of the clock signal (clka), the information available at the indicated location will be available on the output data bus (douta).   
+
+Once all this has been explained, the function of the control signals and the buses that go/come to/from the processing block (Post CPU) will be clearer. For example, the output signal code_mem corresponds to the code memory enable signal (ROM 256x4); the output signal data_mem corresponds to the data memory enable signal (RAM 256x1), while the output signal data_we corresponds to the write enable signal in the latter.
+
+In our case, what is an output signal for the CPU is an input signal for the memory block it is connected to. Thus, the signal with the output bit (dout) of the CPU is connected to the input data signal (dina) of the RAM memory block. In turn, the signal with the input bit (din) of the CPU Unit is connected to the output data signal (douta) of the RAM.
+
+The heart of the CPU is the micro-code that determines the sequence of signals to complete each machine cycle (fetch-decode-execute). The machine cycle starts with the fetch operation, which corresponds to the reading of the instruction code in turn from the code ROM. It continues with the decode operation, which identifies the instruction and determines if its code is accompanied by additional parameters, such as in the case of jump instructions jmp and jz. It is, at this precise moment, when the micro-code loads the Instruction_reg register and, if it is the case, the registers with the low part (Ladd_reg) and the high part (Hadd_reg) of a jump destination address. Once all the necessary information is available, the machine proceeds to execute the operation and conclude a machine cycle to continue with the next one.
+
+[[Figure-3_2]]
+.Block diagram for the proposed architecture for a practical implementation of the Enhanced Post’s Machine (EPM).
+image::figures/Figure_03_02.png["Figure_03_02"]
+
+There are some additional signals for control and monitoring purposes. Specifically, the machine is reset to its initial state by the sys_rst signal, while the CPU clock must be connected to the cpu_clk signal.  It is assumed that the program is preloaded in the code memory (ROM 256x4), thus its execution will only start when a pulse is applied to the run_sig signal. The output bus labeled state allows the user to know the current state of the machine from the sequential circuit states governing the CPU.
+
+=== RTL design methodology and ASMD charts
+
+Since the logical design of the EPM will be coded following an algorithmic and functional rather than structural description, the Register Transfer Level (RTL) design approach will be used. The main idea behind RTL methodology is that each sequential processing is composed of a control path, which can be conceived as a finite-state machine, and a data path, which employs registers that works like the variables of an algorithm. Therefore, in order to better understand the idea of the RTL approach and the functional description of a system using ASMD charts, we will start by explaining these concepts in more detail.
+
+==== Finite-state machines
+
+Logic circuits can be of two types: combinatorial and sequential circuits (Chu, 2006). Combinatorial logic circuits are characterized by the fact that their outputs are a Boolean function of the current states of their inputs. Sequential logic circuits are characterized because their outputs are not only dependent on the current states of their inputs, but also on past states and events. This dependence on the past states and events at its inputs is what makes a graph a natural representation for the operation of sequential circuits.
+
+In the context of a sequential circuit, we say that it can be described by a finite-state machine (FSM) and, in turn, a finite-state machine can be represented by a graph. A graph consists of nodes and arcs. The nodes allow us to represent the machine states, while the nodes represent the changes between states. Figure 3 shows the general idea for the representation of states, state transitions and types of outputs according to whether they are state-dependent or input-dependent.
+
+In this work, we will use the notation _x<=a_ to indicate that the signal _x_ is assigned the value _a_. In the field of logical design, a distinction is made between assigning a value to a signal or to an algorithmic variable. When it comes to assigning a value to a signal, this involves a hardware and the assigned value represents a voltage level. The bottom line is that hardware takes a time, however short, to reach a voltage level and it is never instantaneous, whereas an algorithmic variable takes the assigned values instantaneously.  
+
+The outputs can be either Moore or Mealy type. An output is of the Moore type if its value is an exclusive function of the state it is associated with, that is, it acquires the indicated value if the machine is in the indicated state, otherwise it acquires the opposite value. For example, in Figure 3, the Moore output, mo, is assigned the indicated value when the machine is in the S0 state. A Mealy type output is assigned if its value is a function of the inputs and the associated status. For example, in Figure 3, the Mealy output, me, is assigned the indicated value if the transition originates in the associated state and a certain combination of the inputs is met, in terms of a logic function, which is just the condition that triggered the change of state.   
+
+[[Figure-3_3]]
+.The graph as a representation of a finite-state machine.
+image::figures/Figure_03_03.png["Figure_03_03"]
+
+==== Block diagram for a finite-state machine hardware
+
+As already mentioned, in a sequential logic circuit the outputs do not only depend on the current state of the inputs, but also on the past events and states of the inputs. For this reason, a sequential circuit can be seen as a finite-state machine since each state of the sequential circuit corresponds to a machine state. The block diagram for the hardware that allows a practical realization of a finite state machine is shown in Figure 4. Note how the fundamental blocks are:
+
+* Combinatorial circuit.
+
+* Memory register.
+
+* Clock signal.
+ 
+The combinatorial circuit is the set of Boolean functions that produce the value for the outputs and the signals that determine the next state, based on the current state of the inputs and the current state of the machine. The machine has memory, while the register stores the state of the machine and can update it on every useful edge of the clock. In this hardware representation, it is also possible to identify the Moore and Mealy type outputs, as can be seen in Figure 5.  
+
+[[Figure-3_4]]
+.Block diagram for the practical implementation of a finite state machine.
+image::figures/Figure_03_04.png["Figure_03_04"]
+
+[[Figure-3_5]]
+.Moore and Mealy outputs in a finite-state machine.
+image::figures/Figure_03_05.png["Figure_03_05"]
+
+
+==== Algorithmic state machine chart
+
+An alternative to a graph for a finite-state machine is the Algorithmic State Machine (ASM) chart. ASM chart provide the same information as a FSM graph, but their similarity to a flow chart makes them more descriptive and better suited to describe more complex situations.
+
+Just as the building blocks of a graph are nodes and arcs, in an ASM chart the constructive unit is the ASM block. The generic ASM block is shown in Figure 6. 
+
+[[Figure-3_6]]
+.ASM block diagram.
+image::figures/Figure_03_06.png["Figure_03_06"]
+
+An ASM block includes both state and transitions. The state boxes in an ASM block are equivalent to the nodes in an FSM graph. State jumps are derived from decision units that are called decision boxes, but unlike a flowchart, they are not represented by a rhombus but by a hexagon. The Moore outputs, in accordance with their definition, are placed within the state boxes, while the Mealy outputs are inserted, by means of boxes with rounded edges, into the paths derived from the required decision box. The particular representation of a Mealy output makes it called conditional output box.
+
+It is important to note that in an ASM chart the transitions are strictly governed by the clock. Whether the rising edge (positive) or the falling edge (negative) is designated as the useful edge of the clock, every transition requires at least the occurrence, in the clock signal, of the useful edge. It is also important to mention that each output path in the ASM block corresponds to a unique combination of inputs. Of course, each output path either leads to another ASM block or returns to the input of the same block.
+
+As an example, Figure 7 shows the equivalence of a FSM graph and an ASM chart for the same sequential circuit. Typically, a slash (/) is used in the FSM graph to separate the condition of the inputs from the specification for the output. The only thing to keep in mind is that it is the useful edge of the clock that signals when conditions are checked and transitions are made. Thus, when the machine is in the S0 state, if the input a=0, it returns to the same state. On the other hand, when the machine is in the S0 state, if the input a=1, then the S1 state is transited and, during the transition, the Mealy output, denoted as y0, is set to 1. Once the machine is in the S1 state, the Moore output, denoted as y1, acquires the value of 1. However, when the machine is in the S1 state, the useful flank of the clock is enough to return to the S0 state.
+
+[[Figure-3_7]]
+.FSM graph and equivalent ASM chart.
+image::figures/Figure_03_07.png["Figure_03_07"]
+
+==== RTL methodology
+
+The design methodology with focus a level of transfers between registers (RTL) is a type of abstraction, for a digital system, where it is determined that the best way to describe its operation by emphasizing the transfers between registers that it uses to store the state of the machine and the variables that emulate the operation of an algorithm that is executed sequentially. With this approach, it is possible to describe hardware from an algorithm by including the constructive elements that allow emulating the algorithm model supported by variables, as well as its sequential execution. RTL methodology is versatile enough to represent both simple and complex sequential processing (Chu, 2006).
+
+The constructive element that allows emulating, in the hardware, the model of an algorithm supported by variables is precisely the register. On the other hand, a finite state machine is used to emulate the sequential execution of the algorithm itself. Figure 8 shows a block diagram of a digital system conceived with the RTL approach.
+
+[[Figure-3_8]]
+.Block diagram of a digital system with RTL approach.
+image::figures/Figure_03_08.png["Figure_03_08"]
+
+In the right half of Figure 8 it can be seen that RTL methodology implies the use of registers to store the intermediate data, in the manner of the variables in an algorithm. That is why the concept of data path appears, which specifically refers to all the constructive elements necessary to carry out the operations between the registers. The data path consists of the registers that contain the data, the circuit that processes them and the routing network.
+
+In the left half of Figure 8 it can be seen that the control path, used to determine the order of operations with the registers, is made up of a sequential circuit and its respective finite state machine.
+  
+==== ASMD charts
+
+Since RTL methodology leads to designs with data and control paths, FSM graphs or ASM charts can be used with the addition of the data path information. Thus, an ASMD is an ASM to which register transfer operations are added in the status boxes or conditional output boxes.
+
+We will use the following notation to indicate the register transfer operations:
+
+[latexmath]
+++++
+\begin{equation}
+$r_{dest}\leftarrow f(r_{src1},r_{src1},\ldots,r_{srcn})$
+\end{equation}
+++++
+
+where r_{dest}  is the destination register, r_{srcx}  the source registers and f() the function that operates on the source registers.
+
+The emulation of the algorithm model supported by variables must take into account that the operations with registers are not instantaneous, unlike what happens with the variables of a program, and that, in addition, in the registers the transfers are made when the useful edge of the system clock is presented.
+
+First, it should not be forgotten that the information from the source registers is incorporated into the inputs of the combinatorial circuit, which corresponds to the function f(), just after a given useful edge of the system clock. But in addition, the combinatorial circuit has a propagation time for each of its inputs, so that the next useful edge of the system clock should appear only until the combinatorial circuit is stable. If this is the case, it is true that the destination register is updated with the correct result from the f() function on the next useful edge of the clock.     
+
+[[Figure-3_9]]
+.Input and output signals for a register controlled by the rising-edge of the clock signal.
+image::figures/Figure_03_09.png["Figure_03_09"]
+
+A register has perfectly differentiated input and output signals. To read the value stored in a register, the output signals of the register are used. However, to write a value to the register, its input signals are used. This consideration must be taken into account when coding the register operations using a Hardware Description Language (HDL). For example, consider the notation for input and output signals in the register shown in Figure 9. In this case, the following register operation:
+
+[latexmath]
+++++
+\begin{equation}
+$r1 \leftarrow r1+r2$
+\end{equation}
+++++
+
+is equivalent to VHDL coding:
+
+----
+	--Before the clock rising edge:
+	r1_next <= r1_reg + r2_reg;
+	--On the clock rising edge:
+	r1_reg <= r1_next; 
+----
+
+As mentioned above, an ASMD chart is an ASM chart to which register transfer operations are added, either in the state boxes or in the conditional output boxes. As an example, an ASMD chart that includes implicit register operation notation is shown in Figure 10 (a). Additionally, in Figure 10 (b), an explicit version of the same ASMD chart is represented, where VHDL notation is used to clarify the specific time of each data transfer involving the indicated register operation. 
+
+[[Figure-3_10]]
+.Example of an ASMD chart, in its implicit (a) and explicit (b) version.
+image::figures/Figure_03_10.png["Figure_03_10"]
+
+=== ASMD specification for a practical implementation of the EPM
+
+Remember that the machine cycle of any computer is composed of the fetch-decode-execute sequence. Therefore, it is mandatory that the machine be initialized, before executing a program, setting it to the fist state ready to start the first machine cycle. In our particular case, the logical design of the EPM assumes that it goes to the initial state when a high level is applied to the system reset signal (sys_rst). The initial state of the EPM corresponds to the stop state, in which the only thing that is done is to wait for a high level in the execution start signal (run_sig) to start fetch, decode and execute the instructions of the program stored in the code memory (ROM 256x4). We know that the EPM instruction set includes 8 codes, so it is foreseeable that the micro-code has 8 possible branches from the decoding of each instruction.
+
+In the following, the ASMD charts for each of the EPM states will be detailed, starting from the **stop** state and going through each of the possible branches after the **fetch** and **decode** states, which precisely correspond to the sequential processing for the execution of each of the 8 machine codes of the instruction set.
+
+==== The stop, start, and fetch  states
+
+Figure 11 (b) shows the ASMD chart including **stop**, **start** and **fetch** states. Figure 11 (a) shows the system timing diagrams, considering all signals involved, from the CPU perspective: the system clock (cpu_clk), the memory block clock (mem_clk), the address bus for code memory (code_add), the code memory enable (code_mem), the bus for read codes (code), the address bus for data memory (data_add) the data memory enable (data_mem), the data memory write enable (data_we), the data memory read bit signal (din) and the data memory write bit signal (dout).
+
+Note that the rate between the memory clock speeds (mem_clk) and the CPU clock (cpu_clk) is 2 to 1. This is because the memory blocks being used for both code space (ROM 256x4) and data space (RAM 256x1) are Xilinx native blocks of synchronous memory"footnote:[These memory blocks are provided by the FPGA manufacturer, in this case Xilinx, as proprietary blocks (or IP blocks, by the acronym of _Intellectual Property_).] which require two consecutive rising edges on the clock signal to complete any read or write operation. So, since the CPU clock is the one that governs the operation of the micro-code, which in turn processes the machine cycle sequences, and since some machine states involve access to memory spaces, either to read them or to write them, it is convenient that one cycle of the CPU clock contains two cycles of the memory clock, since it is required to complete the read and write cycles.
+
+[[Figure-3_11]]
+.ASMD chart with the **stop**, **start**, and **fetch** states, with the associated timing diagram.
+image::figures/Figure_03_11.png["Figure_03_11"]
+
+The machine checks the status of the signals and variables involved, on each positive edge of the CPU clock, and acts in accordance with the ASMD chart. For example, the machine remains in the **stop** state until, on some rising edge of the cpu_clk clock signal, a high level (a logical 1) is detected in the run_sig signal. If this is the case, the machine goes to the **start** state and initializes the DP and IP pointers. It does this by means of the register operations indicated in the corresponding state box. Then, at the next rising edge of the CPU clock, the machine switches to the **fetch** state and activates the code_mem output, thus enabling the code memory block and, implicitly, reading the code location indicated by the IP register. With this, the machine is able to move to the **decode** state to start the processing corresponding to the identification of the machine code which, by that time, is already available in the code bus.
+
+==== The decode state
+
+Figure 12 (b) shows the ASMD chart for the **decode** state, while Figure 12 (a) shows the corresponding timing diagram. Here, the eight branches resulting from the decoding process of the instruction read can be seen very clearly. First, once the machine goes into the **decode** state, the first thing to do, by means of register operations, is to transfer the contents of the code  bus to the Instruction_reg register and increment the instruction pointer register, IP. Then, on the next rising edge of the cpu_clk clock, depending on the code read, it goes to the corresponding state.
+
+[[Figure-3_12]]
+.ASMD chart with the **decode** state and the associated timing diagram.
+image::figures/Figure_03_12.png["Figure_03_12"]
+
+==== The incdp_exe and decdp_exe states
+
+Figure 13 (b) shows the ASMD charts corresponding to the execution of _incdp_ and _decdp_ instructions. Figure 13 (a) shows the associated timing diagram. These states are very simple and are reduced to the state boxes where the register operations, corresponding to the data pointer register, DP, increment or decrement, are performed. It can be confirmed that, once the indicated operation has been executed, on the next rising edge of the CPU clock, the next machine cycle is started by returning to the **fetch** state.
+
+[[Figure-3_13]]
+.ASMD chart with the **incdp_exe** and **decdp_exe** states, with the associated timing diagram.
+image::figures/Figure_03_13.png["Figure_03_13"]
+
+==== The set_exe and clr_exe states
+
+Figure 14 (b) shows the ASMD charts corresponding to the execution of the _set_ and _clr_ instructions. Figure 14 (a) shows the associated timing diagram. These are also ASM blocks that are reduced to the state box only that, in this case, no register operations are performed but writes to the data memory space. It can be seen that the procedure consists of indicating the writing, either of a 1 bit or a 0 bit, at the location indicated by the data pointer register, DP. To do this, inside the state box, the data memory is enabled (data_mem<=1) and it is indicated that it will be written to a memory block (data_we<=1). Obviously, the bit to be written is placed in the data output signal, either one for the set instruction or zero for the clr instruction.  
+[[Figure-3_14]]
+.ASMD chart with the **set_exe** and **clr_exe** states, with the associated timing diagram.
+image::figures/Figure_03_14.png["Figure_03_14"]
+
+==== State sequence for jmp instruction
+
+Figure 15 (b) shows the ASMD chart corresponding to the processing of the _jmp_ instruction. Figure 15 (a) shows the associated timing diagram. The execution of the unconditional jump instruction involves several register operations and signals. To begin with, once the machine code has been decoded and the instruction is known to be _jmp_, the machine goes to the **point_ha_jmp** state which, in essence, reads the next nibble from the code memory containing the high portion of the jump address. This is because the instruction pointer, IP, previously increased in the decode state, already points to the location where the high part of the jump address is, so the only thing that has to be done in the **point_ha_jmp** state, to guarantee the reading of the code memory, is to keep the signal that enables it high (code_mem<=1).
+
+[[Figure-3_15]]
+.ASMD chart with the state flow for **jmp** instruction, with the associated timing diagram.
+image::figures/Figure_03_15.png["Figure_03_15"]
+
+On the next rising edge of the CPU clock, the machine goes to the **load_ha_jmp** state and transfers, to the Hadd_reg register, the upper part of the address that is available in the code bus. In the same state box, the instruction pointer register, IP, is increased by a register operation.
+
+Similarly, on the next two rising edges of the CPU clock, the machine processes the lower part of the jump address. This is done in the **point_la_jmp** and **load_la_jmp** states. Finally, the execution of the _jmp_ instruction is completed in the **jmp_exe** state, where the instruction pointer register, IP, is simply loaded with the new target address, reconstructed from its components.
+
+==== State sequence for jz instruction
+
+Figure 16 (b) shows the ASMD chart corresponding to the processing of the _jz_ instruction. Figure 16 (a) shows the associated timing diagram. The execution of the conditional _jz_ instruction is a more sophisticated version of the unconditional jump (_jmp_).
+
+[[Figure-3_16]]
+.ASMD chart with the state flow for _jz_ instruction, with the associated timing diagram.
+image::figures/Figure_03_16.png["Figure_03_16"]
+
+The states **point_ha_jz**, **load_ha_jz**, **point_la_jz** and **load_la_jz** fulfill exactly the same functions as their equivalents in the _jmp_ instruction, but here a couple of states are added in order to check the value of the data location, precisely the one indicated by the data pointer register, DP, so that, if its value is zero, the machine jumps to the destination address by updating the instruction pointer register, IP, accordingly.
+
+The additional states are **point_data_jz** and **loadntst_data**. The **point_data_jz** state is responsible for preparing the reading of the memory location indicated by the data pointer register, DP. To do this, it simply enables the data memory device (data_mem<=1) and, since nothing else is specified, it is assumed that the signal indicating that the memory block is to be written is kept low (data_we<=0), which means that the addressed location is read. The purpose of the **loadntst_data** state is to check the available bit in the input data signal (din) and, if it is zero, to update the contents of the instruction pointer register, IP, with the new destination address, reconstructed from its components.
+
+Now, after presenting the general ideas for the proposed logical design of a CPU, from the functional description of the Enhanced Post’s Machine (EPM) using ASMD charts, it should be noted that this design is not associated with a specific hardware. For example, nothing has been said about the buttons, switches or signaling elements to which the different system signals will be connected.  However, it is essential to have an input/output interface in order to obtain a functional prototype. The next chapter will address this important remaining issue. 
