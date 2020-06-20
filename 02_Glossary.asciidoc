@@ -1,0 +1,49 @@
+[Glossary]
+== Glossary
+
+ALU:: Arithmetic Logic Unit.
+
+ANSI:: American National Standards Institute.
+
+.asm:: Extension of the files with assembler source code.
+
+ASM:: Algorithmic State Machine.
+
+ASMD:: Algorithmic State Machine with Data path.
+
+.bin:: Extension of the files with binary code.
+
+bit:: Binary digit, acronym for Binary digIT.
+
+byte:: 8-bit Tuple (group), acronym for BinarY TuplE.
+
+CPU:: Central Processing Unit.
+
+DP:: Data Pointer.
+
+FPGA:: Field-Programmable Gate Array.
+
+FSM:: Finite State Machine.
+
+HDL:: Hardware Description Language.
+
+IP::  Instruction Pointer.
+
+LED:: Light-Emitting Diode.
+
+LSB:: Least Significant Bit.
+
+MSB:: Most Significant Bit.
+
+nibble:: Half a byte, i.e. a 4-bit group or tuple.
+
+RAM:: Random Access Memory.
+
+ROM:: Read Only Memory.
+
+RTL:: Register Transfer Level.
+
+.vhd:: Extension of the files with VHDL source code.
+
+VHDL:: High-level hardware description language, the acronym results from the combination of two acronyms: VHSIC (Very High Speed Integrated Circuit) and HDL (Hardware Description Language).
+

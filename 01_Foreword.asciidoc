@@ -1,0 +1,32 @@
+[foreword]
+== Foreword
+
+Dear reader, you have in front of you this monograph, in booklet format, that presents an introduction to computer science with a practical approach that, although certainly some may qualify it as not very novel or anachronistic, at least it gives oxygen to the treated subject and revitalizes it in these times of increasing complexity, speed in the changes and uncertainty.
+
+The theme developed in this work is the result of my experience as a professional and educator, in the field of computers and digital systems, for about 30 years. It has a double purpose, both as an informative book for amateurs and the general public, and as a possible textbook for engineering students or graduates.
+
+The inspiration to write this monograph came after I found, by chance, two divulgation books in my library with which I was initiated in the amazing world of computers, around 1984, when I was a teenager and a student in high school:
+
+*	_The Analytical Engine_ by Jeremy Bernstein.
+*	_Post’s Machine_ by Vladimir A. Uspenski.
+
+Both works may be considered as classics and true jewels in the context of the popularization of computer science. The first, written by Professor Jeremy Bernstein, a prominent American physicist, was originally published in English, in 1964, but in 1981 a revised edition was published, which was the one that reached my hands in its Spanish version. The second book, written by Professor Vladimir Andreyevich Uspenski, a distinguished Russian mathematician, was originally published in Russian, in 1979, and reached my hands in the Spanish edition of 1983, published and printed by the very memorable MIR Publishers, in the far away, icy and famous lands of the extinct Soviet Union. 
+
+I love both books and they have a very special place in my personal library. These two works definitely marked me forever and, for the same reason, I consider their authors, Professors Jeremy Bernstein and Vladimir A. Uspenski, both prolific writers and excellent disseminators of knowledge, as part of the group of teachers and educators to whom I owe myself as a professional in the field of computer science.
+
+Reviewing these memorable and beloved books, I realized that today, with all the computational and technological power we have, it was perfectly possible to make a small prototype with which surely would have been very happy, at that time and also right now, all the admirers and followers of Professors Bernstein and Uspenski, including me, of course, as well as all the "nerds" of my type, who were (and still are) eager and excited to be able to practice the basics of computing and programming, at the level of beginners, on some artifact that emulates Post's machine, that is, a version for dummies of Turing's very well-known machine. It was then that I set to work and the result of that effort is this monograph that you have in front of you.
+
+In summary, the complete development of the design, implementation and programming of the prototype for a small central processing unit (CPU) is presented in this monograph, starting with an improved variant of the Post’s Machine. The Post’s Machine is a theoretical development similar to that of Alan Turing, the famous mathematician considered to be one of the fathers of modern computing, although developed by Emil Post in an entirely original and independent way. The Post’s Machine is much simpler than Turing's, therefore, given its relative simplicity, it allows those interested to be introduced, in a clear way, to the basic concepts related to the operation of virtually every modern digital CPU. 
+
+The development of the logical design of the corresponding digital system is explained, it is specified by means of Register Transfer Level (RTL) methodology, its codification is shown with VHDL language and it is implemented with the resources of a low cost FPGA development board. The prototype obtained could be used for the interested parties to experiment, in a very concrete and practical way, the concepts of micro-code, algorithm and programming, both in assembly language and in machine language.
+
+Finally, it is demonstrated that it is possible to build, with relatively limited resources, a micro-processing system that allows the acquisition of the necessary knowledge and experience to be introduced in the field of design and application of modern digital systems. Therefore, this work can be used as a reference, both theoretical and practical, for any engineer, or computer and electronics amateurs, who wishes to go deeper into the details of the design and construction of a prototype for a simple but functional microprocessor. The material in this work can even be of great interest, in the academic environment, as a complementary textbook for the Advanced Logical Design, Micro-processing Systems and other related courses.
+
+In short, kind reader, I put the work at your disposal and I hope it will be of interest or, at least, of some use.
+
+Gerardo Abel Laguna-Sanchez
+Professor and researcher
+Information Systems and Computational Sciences Research Area
+Universidad Autonoma Metropolitana, Unidad Lerma
+g.laguna@correo.ler.uam.mx
+
