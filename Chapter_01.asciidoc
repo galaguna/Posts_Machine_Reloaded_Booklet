@@ -82,9 +82,9 @@ In another vein, the instruction sequence, or "software", of the Post’s Machin
 
 * The sequence of instructions that determines the movement of the tape head, as well as the reading and writing of the cells, to mark or delete them, is called as program.
 
-* Each instruction has an associated natural number (greater or equal to 1), to indicate its position in the sequence of instructions, which is called instruction number i.
+* Each instruction has an associated natural number (greater or equal to 1), to indicate its position in the sequence of instructions, which is called instruction number _i_.
 
-* So that each instruction also specifies the number of the next instruction j. When the instruction is conditional and therefore allows controlling the program flow, it contains two possible j-indexes for the following instruction: j1 and j2. Thus, if the condition is met, it jumps to j1; otherwise, it jumps to j2.
+* So that each instruction also specifies the number of the next instruction _j_. When the instruction is conditional and therefore allows controlling the program flow, it contains two possible _j_-indexes for the following instruction: _j1_ and _j2_. Thus, if the condition is met, it jumps to _j1_; otherwise, it jumps to _j2_.
 
 * The instruction set of the original Post’s Machine includes only six operations:
 
@@ -110,7 +110,7 @@ The Post’s Machine operation can be summarized as follows:
 
 * The instructions are executed step by step.
 
-* After instruction i is executed, instruction j specified by the same instruction i is executed.
+* After instruction _i_ is executed, instruction _j_ specified by the same instruction _i_ is executed.
 
 * The execution of the instructions is continued until the stop instruction or an undefined instruction is found. 
 
@@ -124,42 +124,42 @@ Right move instruction:: It is denoted by the syntax:
 ----
 				i. rmov, j
 ----
-and reads, "Instruction i commands the machine to move the tape head one cell to the right and continue with instruction j".
+and reads, "Instruction _i_ commands the machine to move the tape head one cell to the right and continue with instruction _j_".
 
 
 Left move instruction:: It is denoted through the syntax:
 ----
 				i. lmov, j
 ----
-and reads, "Instruction i commands the machine to move the tape head one cell to the left and continue with instruction j".
+and reads, "Instruction _i_ commands the machine to move the tape head one cell to the left and continue with instruction _j_".
 
 
 Print instruction:: It is denoted by the syntax:
 ----
 				i. print, j
 ----
-and reads, "Instruction i commands the machine to mark the cell at the tape head position and continue with instruction j".
+and reads, "Instruction _i_ commands the machine to mark the cell at the tape head position and continue with instruction _j_".
 
 
 Clear instruction:: It is denoted through the syntax:
 ----
 				i. clr, j
 ----
-and reads, "Instruction i commands the machine to clear the cell at the tape head position and continue with instruction j".
+and reads, "Instruction _i_ commands the machine to clear the cell at the tape head position and continue with instruction _j_".
 
 
 Conditional jump instruction:: It is denoted by the syntax:
 ----
 				i. ifempty j1 else j2
 ----
-and reads, "Instruction i commands the machine to continue with instruction j1, if the cell in the tape head position is empty, or with instruction j2, if the cell is marked".
+and reads, "Instruction _i_ commands the machine to continue with instruction _j1_, if the cell in the tape head position is empty, or with instruction _j2_, if the cell is marked".
 
 
 Stop instruction:: It is denoted through the syntax:
 ----
 				i. stop
 ----
-and reads, "Instruction i commands the machine to stop executing instructions".
+and reads, "Instruction _i_ commands the machine to stop executing instructions".
 
 
 === Program example for the Post’s Machine
@@ -377,9 +377,9 @@ Now, it is time to propose some improvements to the original Post’s Machine, i
 
 In order to build a digital system, to emulate the operation of a Post’s Machine, in this work we propose making some improvements to the original Uspenski specification (Uspenski, 1983). This variant will be called _Enhanced Post’s Machine_ or EPM. 
 
-First, the cell tape is replaced by a memory with addressing for N locations of 1 bit, where each data location can contain either a zero or a one, as shown in Figure 35. In this new representation, one cell corresponds to one data locality while the tape head corresponds to the register known as the _data pointer_ (DP) register, which indicates the address of the data locality in turn. 
+First, the cell tape is replaced by a memory with addressing for _N_ locations of 1 bit, where each data location can contain either a zero or a one, as shown in Figure 35. In this new representation, one cell corresponds to one data locality while the tape head corresponds to the register known as the _data pointer_ (DP) register, which indicates the address of the data locality in turn. 
 
-Secondly, each data location is associated with an address with a non-negative integer. Thus, the first data locality has the address 0, while the last corresponds to N-1. The number of locations will now be finite, but this restriction can be overcome by designing the data space in the way of a circular buffer. In the latter case, when the DP register exceeds the last address, it returns to address 0.
+Secondly, each data location is associated with an address with a non-negative integer. Thus, the first data locality has the address 0, while the last corresponds to _N-1_. The number of locations will now be finite, but this restriction can be overcome by designing the data space in the way of a circular buffer. In the latter case, when the DP register exceeds the last address, it returns to address 0.
 
 [[Figure-1_35]]
 .Enhanced Post’s Machine (EPM) hardware.
@@ -390,7 +390,7 @@ With regard to program execution, it should now be noted that the instructions a
 
 * The program consists of the sequence of instructions, stored in a memory exclusive to the code, which operates on the DP register, increasing or decreasing it, in order to read or write ones and zeros in the location pointed within the data memory.
 
-* Each instruction has associated the address of the code memory location where it is stored, indicating with a non-negative integer its absolute position within the total sequence of instructions. This address is called the "code address" and is denoted by the i index.
+* Each instruction has associated the address of the code memory location where it is stored, indicating with a non-negative integer its absolute position within the total sequence of instructions. This address is called the "code address" and is denoted by the _i_ index.
 
 * Each instruction is executed consecutively, starting with the instruction at address 0 and continuing upwards, except when a jump instruction appears, in which case the address of the next instruction denoted by j index is specified. The pointer that indicates the instruction to be executed is known as the _instruction pointer_ (IP) register. This is an important innovation, since it allows eliminate, within the syntax for the most of the instructions, the j index that would indicate the next instruction to be executed. For the same reason, in order to be able to make jumps when required, the need to incorporate a specific instruction to do so arises.  
 
@@ -420,53 +420,53 @@ DP (data pointer register) increment instruction:: It is denoted by the syntax:
 ----
 				i. incdp
 ----
-and reads, "The instruction in code address i commands the machine to increment the data pointer".
+and reads, "The instruction in code address _i_ commands the machine to increment the data pointer".
 
-It is important to mention that real digital systems are subject to restrictions imposed by the size of the memory, which is why pointers are usually associated with a finite data structure. We will assume that the data structure to contain the data is an N-size circular buffer, where the lower location has the address 0, while the upper location has the address N-1. In a circular buffer, when the DP register reaches the upper end (N-1), increasing it forces it to take the value 0. 
+It is important to mention that real digital systems are subject to restrictions imposed by the size of the memory, which is why pointers are usually associated with a finite data structure. We will assume that the data structure to contain the data is an _N_-size circular buffer, where the lower location has the address 0, while the upper location has the address _N-1_. In a circular buffer, when the DP register reaches the upper end (_N-1_), increasing it forces it to take the value 0. 
 
 
 DP (data pointer register) decrement instruction:: It is denoted through the syntax:
 ----
 				i. decdp
 ----
-and reads, "The instruction in code address i commands the machine to decrement the data pointer".
+and reads, "The instruction in code address _i_ commands the machine to decrement the data pointer".
 
-Under the same assumption, using a circular buffer of size N, when the DP register is at the bottom end (0), decreasing it forces it to take the maximum value (N-1).
+Under the same assumption, using a circular buffer of size _N_, when the DP register is at the bottom end (0), decreasing it forces it to take the maximum value (_N-1_).
 
 
 Set instruction:: It is denoted by syntax:
 ----
 				i. set
 ----
-and reads, "The instruction in code address i commands the machine to write 1 at the location indicated by the data pointer register".
+and reads, "The instruction in code address _i_ commands the machine to write 1 at the location indicated by the data pointer register".
 
 
 Clear instruction:: It is denoted through the syntax:
 ----
 				i. clr
 ----
-and reads, "The instruction in code address i commands the machine to write 0 at the location indicated by the data pointer register".
+and reads, "The instruction in code address _i_ commands the machine to write 0 at the location indicated by the data pointer register".
 
 
 Jump instruction:: It is denoted by syntax:
 ----
 				i. jmp j
 ----
-and reads, "The instruction in code address i commands the machine to jump to the instruction in code address j".
+and reads, "The instruction in code address _i_ commands the machine to jump to the instruction in code address _j_".
 
 
 Jump if zero instruction:: It is denoted through the syntax:
 ----
 				i. jz j
 ----
-and reads, "The instruction in code address i commands the machine to jump to the instruction in code address j if the bit indicated by the data pointer register is zero".
+and reads, "The instruction in code address _i_ commands the machine to jump to the instruction in code address _j_ if the bit indicated by the data pointer register is zero".
 
 
 Stop instruction:: It is denoted by the syntax:
 ----
 				i. stop
 ----
-and reads, "The instruction at code address i commands the machine to stop program execution".
+and reads, "The instruction at code address _i_ commands the machine to stop program execution".
 
 
 In order to show how much the writing and reading of programs is simplified when using the new set of instructions of the EPM, we will now follow step by step the execution of a program that performs the arithmetic operation of increment, previously studied, but this time for the case of the Enhanced Post’s Machine and its instruction set.
