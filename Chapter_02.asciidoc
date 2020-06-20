@@ -1,0 +1,122 @@
+[role="pagenumrestart"]
+[[ch02_Instruction_coding]]
+== Instruction coding for the Enhanced Post’s Machine (EPM)
+
+Chapter 1 conceptualized the operation of the Enhanced Post’s Machine (EPM) and studied its programming in terms of low-level syntax. This chapter introduces the coding of the instruction set, as a necessary element to obtain the machine code of the EPM and, from that, to preFigure the characteristics of the hardware required to fetch, decode and execute the codes of those instructions.   
+
+=== Coding with the EPM instruction set
+
+Although the EPM's essential instruction set includes seven operations, a non-operating instruction (_nop_) will be added, which essentially consumes one machine cycle, resulting in a total of eight instructions for the functional architecture of the CPU to be performed. Since the total number of instructions is 8, 8 codes are also required for their numerical representation, each of which can be made up of three bits, since combinations with three bits are 2^3=8. Therefore, in the proposed design, 4-bit registers (nibbles) will be used to store the instruction codes in memory. This will make it possible to handle, with enough slack, the instruction codes while making it possible, for the parameters of some instructions, also to be fragmented and stored in groups of nibbles. Table 2.1 shows a summary for the specified instruction set as well as the proposed hexadecimal coding. It is clear that, since each segment of the code is composed of 4 bits or one nibble, only one hexadecimal digit is required for its representation (in this work, hexadecimal numbers are denoted with the prefix 0x).
+
+In the particular case of jump instructions, _jmp_ and _jz_, note that each instruction code is accompanied by two additional nibbles that make up the destination address in absolute terms. Table 1, specifically regarding the destination address, indicates that nibble 2 contains the most significant bits (MSB), while nibble 3 contains the least significant bits (LSB). 
+
+Given this coding for the instruction set, where the destination addresses is composed by 8 bits, this means that in the proposed architecture up to 256 code memory locations can be addressed (2^8=256). Thus, the code memory can be a 256x4-bit array (i.e. 256 4-bit registers). Although it is possible to extend the addressing capacity, by simply adding as many address nibbles as necessary, the coding shown in Table 1 will be chosen here in order to simplify the logical design. 
+
+For the same reason, the data memory, which in this case represents the tape with its cells, can be a 256x1 bit array (i.e. 256 one-bit registers). So, the Post’s Machine to be emulated does not have an infinite tape, but only a 256-cell tape. Regardless this limitation, which can also be overcome by increasing the assigned data memory, the proposed system does not collapse, if any of the limits are reached, since the data structure used is that of a circular buffer. Therefore, being the data pointer register at its upper limit, an increment takes it to the lower limit and, correspondingly, being the data pointer register at the lower limit, a decrement takes it to the upper limit.    
+
+[[table-2_1]]
+.Instructions and machine codes for the EPM.
+[options="header"]
+|=======
+|Instruction|Mnemonic|Nibble 1|Nibble 2|Nibble 3
+| No operation | nop | 0x0 |  |  |
+| Increment DP | incdp | 0x1 |  |  |
+| Decrement DP | decdp | 0x2 |  |  |
+| Set | set | 0x3 |  |  |
+| Clear | clr | 0x4 |  |  |
+| Jump | jmp | 0x5 | Add 7-4 | Add 3-0 |
+| Jump if zero | jz | 0x6 | Add 7-4 | Add 3-0 |
+| Stop | stop | 0x7 |  |  |
+|=======
+
+=== Machine language coding for EPM programs
+
+Now we will see how to code, in machine language, a program for the Enhanced Post’s Machine. As an example, we will take the program that increment natural numbers:
+
+----
+0. incdp
+1. jz 3
+2. jmp 0
+3. set
+4. stop
+----
+
+In this program notation, each instruction is indexed by a non-negative number. In principle, this number indicates the address of the code space where the instruction is stored. However, the reality is that the consecutive numbers that appear in the program and that work as indexes to the instructions are actually labels or tags that serve the programmer to identify them in a simple way. These labels do not help the machine to do its job. Strictly speaking, the real addresses of each instruction appear until the program is coded in machine language.
+
+To better understand this concept, the same program is rewritten below, but this time using generic tags that highlight the fact that, at the source code level, the indexes that precede each instruction are just labels that help the programmer identify them:
+
+----
+Lab0. incdp
+Lab1. jz Lab3
+Lab2. jmp Lab0
+Lab3. set
+Lab4. stop
+----
+
+This version of the source code will then be machine coded to illustrate the work that an assembler program would do. The general idea is to code, line by line, the instructions in the source code to translate them to their machine code equivalents. The procedure is quite mechanical, but some previsions must be made for references to specific addresses.
+
+Start with the scenario shown in Figure 1. As reference, the source program is depicted next to the table with the set of instructions for the machine and the corresponding codes. The work tables, representing the physical code and data spaces, are also shown. Note that Add is the abbreviation for Adddress. It should not be forgotten that MSB and LSB are, respectively, the acronyms for Most Significant Bit and Least Significant Bit.   
+
+[[Figure-2_1]]
+.Source program and initial "blank" state for code and data spaces.
+image::figures/Figure_02_01.png["Figure_02_01"]
+
+In Figure 1, the Table formed by the columns Code Add, Label and Code, represents the physical space of the code memory. In this first Table, each line corresponds to a memory location containing a 4-bit or nibble register with the associated instruction code. The second Table, made up of the columns Data Add and Data bit, represents the physical space of the data memory. In this second Table, each line corresponds to a memory location containing a 1-bit register. The register information will be specified in hexadecimal or binary. For didactic purposes, both code and data memory spaces will be limited to 256 locations and therefore the addresses are sufficiently represented with 8 bits, which correspond exactly to two hexadecimal digits (remember that each hexadecimal character represents 4 bits, given that the combinations for a nibble are 2^4=16).
+
+The coding work starts with the first line of the source code, in this case the instruction that is found in the address identified with the _Lab0_ label. For convenience, we will force this first address to correspond with the location with _0x00_ address. Since this first instruction is the one corresponding to the mnemonic _incdp_, its transfer to machine code is straightforward, in this case it corresponds to machine code _0x1_, as shown in Figure 2.
+
+[[Figure-2_2]]
+.Coding the first line of the source program.
+image::figures/Figure_02_02.png["Figure_02_02"]
+
+The next is coding the second line of the source code, that is, the instruction that is associated with the address that corresponds to the _Lab1_ label. This second instruction involves a jump and, therefore, requires the specification of the destination address, by means of two additional nibbles. This is the conditional jump, _jz_, so the machine code is _0x6_, but we do not know the exact address that corresponds to the _Lab3_ label, since that instruction has not been coded yet. This is the reason why we reserve two locations of the code space (two nibbles) and continue with the coding of the next instruction. The progress up to this point is shown in Figure 3.
+
+[[Figure-2_3]]
+.Partial coding for the second line of the source program.
+image::figures/Figure_02_03.png["Figure_02_03"]
+
+It follows the coding of the third line of the source code, i.e., the instruction that is associated with the address that corresponds to the _Lab2_ label. This third instruction also involves a jump and, therefore, also requires the specification of the destination address with two additional nibbles. This is the unconditional jump, _jmp_, so the machine code is _0x5_, but in this case, the exact address that corresponds to the _Lab0_ label is already known, since that instruction had been coded. It is clear that the address corresponding to the Lab0 label is _0x00_, so the nibble corresponding to the upper part of the address is _0x0_, while the nibble corresponding to the lower part of the address is also _0x0_. The progress in coding up to this point is shown in Figure 4.
+
+[[Figure-2_4]]
+.Coding the third line of the source program.
+image::figures/Figure_02_04.png["Figure_02_04"]
+
+Now, coding the fourth line of the source code, associated with the address identified with the _Lab3_ label, is that which corresponds to the mnemonic _set_ and its translation to machine code is also straightforward. In this case it corresponds to machine code _0x3_, as shown in Figure 5.
+
+[[Figure-2_5]]
+.Coding the fourth line of the source program.
+image::figures/Figure_02_05.png["Figure_02_05"]
+
+At this point, it is already known exactly which address the _Lab3_ label corresponds to. As shown in Figure 5, the physical address associated with the _Lab3_ label is _0x07_. Therefore, we can complete the information of the destination address that was pending to be defined for the _jz_ instruction, in the second line of the source program, namely that the nibble corresponding to the upper part of the address is _0x0_, while the nibble corresponding to the lower part of the address is _0x7_ (see Figure 6). The progress of coding, after completing the missing information, is shown in Figure 7.
+
+[[Figure-2_6]]
+.Filling the Information corresponding to the _Lab3_ label.
+image::figures/Figure_02_06.png["Figure_02_06"]
+
+[[Figure-2_7]]
+.Complete coding of the second line of the source program.
+image::figures/Figure_02_07.png["Figure_02_07"]
+
+We reach the fifth line of the source code, associated with the address identified with the _Lab4_ label. This is the mnemonic stop instruction, whose transfer to machine code is also straightforward. The corresponding machine code is _0x7_ and this concludes the coding in machine language of this small example program, as shown in Figure 8.
+
+[[Figure-2_8]]
+.Coding the fifth and last line of the source program.
+image::figures/Figure_02_08.png["Figure_02_08"]
+
+Although with the progress made up to this point the coding of the program is completed, the input data for the program still needs to be loaded. If we start from the initial state of the machine, prior to the execution of the increment program, shown in Figure 36 of the previous chapter, then we can proceed with the coding, but now in the data space, of this information which constitutes the input parameter of the program or, in other words, the operand for the increment operation.
+
+As we have seen, the natural number to be incremented was the number 2, which is why it was coded by a sequence of two consecutive ones in the data space. To load this information into the physical space of the data memory, just keep in mind that the initial position of the data pointer register, DP, is pointing to the address _0x00_. Since the increment program requires that the initial data pointer points the first position in the ones sequence, then it is indispensable that the sequence of ones be loaded from that particular location. 
+
+The required input information and the "blank" state of the physical data space before loading can be seen in Figure 9. The loading of the input data is simply and straightforward, it just consists of storing, bit by bit and in the same order, the desired sequence. It is important to remember that the data memory is composed of single-bit registers, which is why only one bit is stored in each location of that memory. 
+
+[[Figure-2_9]]
+.Input data and data memory space before loading.
+image::figures/Figure_02_09.png["Figure_02_09"]
+
+[[Figure-2_10]]
+.Input data and data memory space properly loaded.
+image::figures/Figure_02_10.png["Figure_02_10"]
+
+Once the coding of the program instructions has been completed and the corresponding codes are stored in the code memory space, after loading the data memory with the input operand, as illustrated in Figure 10, an EPM prototype would be ready for the execution of the increment program. 
+
+Up to this point, the most important general concepts about the Post’s Machine and its improved version, which has been called EPM, have been presented. We are ready to go into the details of a logical design that allows a practical and functional realization of a CPU based on these principles. In the following chapter we present a concrete proposal for the practical realization of a small CPU that works as stated so far.
