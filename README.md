@@ -30,16 +30,16 @@ To read this book, click on each of the chapters to read in your browser.
 
 ## Chapters
 
-+ Foreword: '[Preface](https://github.com/galaguna/Posts_Machine_Reloaded_Booklet/blob/develop/01_Foreword.asciidoc)'
-+ Glossary: '[](https://github.com/galaguna/Posts_Machine_Reloaded_Booklet/blob/develop/02_Glossary.asciidoc)'
-+ Introduction: '[](https://github.com/galaguna/Posts_Machine_Reloaded_Booklet/blob/develop/03_Introduction.asciidoc)'
-+ Chapter 1: '[Post’s Machine conceptualization](https://github.com/galaguna/Posts_Machine_Reloaded_Booklet/blob/develop/Chapter_01.asciidoc)'
-+ Chapter 2: '[Enhanced Post’s Machine (EPM) coding](https://github.com/galaguna/Posts_Machine_Reloaded_Booklet/blob/develop/Chapter_02.asciidoc)'
-+ Chapter 3: '[EPM logical design](https://github.com/galaguna/Posts_Machine_Reloaded_Booklet/blob/develop/Chapter_03.asciidoc)'
-+ Chapter 4: '[EPM prototype interface](https://github.com/galaguna/Posts_Machine_Reloaded_Booklet/blob/develop/Chapter_04.asciidoc)'
-+ Chapter 5: '[Conclusions](https://github.com/galaguna/Posts_Machine_Reloaded_Booklet/blob/develop/Chapter_05_Conclusions.asciidoc)'
-+ Appendix: '[Practical realization of the EPM prototype](https://github.com/bitcoinbook/bitcoinbook/blob/develop/I_Appendix.asciidoc)'
-+ References: '[Bibliography](https://github.com/bitcoinbook/bitcoinbook/blob/develop/II_References.asciidoc)'
++ Foreword: '[Foreword](https://github.com/galaguna/Posts_Machine_Reloaded_Booklet/blob/master/01_Foreword.asciidoc)'
++ Glossary: '[Glossary](https://github.com/galaguna/Posts_Machine_Reloaded_Booklet/blob/master/02_Glossary.asciidoc)'
++ Introduction: '[Introduction](https://github.com/galaguna/Posts_Machine_Reloaded_Booklet/blob/master/03_Introduction.asciidoc)'
++ Chapter 1: '[Post’s Machine conceptualization](https://github.com/galaguna/Posts_Machine_Reloaded_Booklet/blob/master/Chapter_01.asciidoc)'
++ Chapter 2: '[Enhanced Post’s Machine (EPM) coding](https://github.com/galaguna/Posts_Machine_Reloaded_Booklet/blob/master/Chapter_02.asciidoc)'
++ Chapter 3: '[EPM logical design](https://github.com/galaguna/Posts_Machine_Reloaded_Booklet/blob/master/Chapter_03.asciidoc)'
++ Chapter 4: '[EPM prototype interface](https://github.com/galaguna/Posts_Machine_Reloaded_Booklet/blob/master/Chapter_04.asciidoc)'
++ Chapter 5: '[Conclusions](https://github.com/galaguna/Posts_Machine_Reloaded_Booklet/blob/master/Chapter_05_Conclusions.asciidoc)'
++ Appendix: '[Practical realization of the EPM prototype](https://github.com/bitcoinbook/bitcoinbook/blob/master/I_Appendix.asciidoc)'
++ References: '[Bibliography](https://github.com/bitcoinbook/bitcoinbook/blob/master/II_References.asciidoc)'
 
 # Published
 
