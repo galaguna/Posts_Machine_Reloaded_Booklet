@@ -38,7 +38,7 @@ To read this book, click on each of the chapters to read in your browser.
 + Chapter 3: '[EPM logical design](https://github.com/galaguna/Posts_Machine_Reloaded_Booklet/blob/master/Chapter_03.asciidoc)'
 + Chapter 4: '[EPM prototype interface](https://github.com/galaguna/Posts_Machine_Reloaded_Booklet/blob/master/Chapter_04.asciidoc)'
 + Chapter 5: '[Conclusions](https://github.com/galaguna/Posts_Machine_Reloaded_Booklet/blob/master/Chapter_05_Conclusions.asciidoc)'
-+ Appendix: '[Practical realization of the EPM prototype](https://github.com/bitcoinbook/bitcoinbook/blob/master/I_Appendix.asciidoc)'
++ Appendix: '[Practical realization of the EPM prototype](https://github.com/galaguna/Posts_Machine_Reloaded_Booklet/blob/master/I_Appendix.asciidoc)'
 + References: '[Bibliography](https://github.com/bitcoinbook/bitcoinbook/blob/master/II_References.asciidoc)'
 
 # Published
