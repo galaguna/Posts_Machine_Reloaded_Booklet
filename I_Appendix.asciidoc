@@ -1,0 +1,266 @@
+[appendix]
+
+== Appendix. Hardware synthesis and practical realization of the EPM prototype
+
+This appendix presents the specific instructions, step by step, for the synthesis of the binary sequence representing the EPM prototype hardware, from the VHDL code of the previous appendix, for its loading into the FPGA of a Basys3 card. General information and technical details of the Basys3 card can be found on the card's website:
+
+https://store.digilentinc.com/basys-3-artix-7-fpga-trainer-board-recommended-for-introductory-users/
+
+This card includes a Xilinx FPGA of the Artix 7 family. All information about the features and performance of this FPGA family can be found on the product website:
+
+https://www.xilinx.com/products/silicon-devices/fpga/artix-7.html#productTable
+
+With regard to the software, which constitutes the design environment for the bit stream synthesis from the VHDL code, this must be done using the tools provided by the FPGA manufacturer, in order to guarantee the proper functioning of the device. In this case, the Vivado environment will be used, for which it is sufficient to install the version known as Vivado WebPACK Edition, which has a free use license. To download the program, its installation and more information about this design environment, the reader can visit the product website:
+
+https://www.xilinx.com/products/design-tools/vivado.html
+   
+[[Figure-A_0]]
+.Completed prototype for the EPM successfully running.
+image::figures/Figure_A2_00.png["Figure_A2_00"]
+
+=== Step-by-step instructions
+
+==== Step 1. Check the status of the Basys3 card
+
+Ensure that the Basys3 card is in the operating mode (Digilent, 2017) where the FPGA is automatically initialized, via the SPI serial interface, with the bit sequence stored in the Flash memory card (there must be a connection between jumper posts 1 and 2 JP1 [MODE]). Before powering up the Basys3 card, by connecting the USB Type-A/Micro-B cable, check the power switch is in the OFF position. Once the USB cable is connected, you can turn on the card by setting the POWER SWITCH to the ON position. The first time, it may take a few seconds for the computer to detect the card and load the necessary drivers.
+
+Immediately after switching on the card, you can check that it is working properly if it behaves according to the test sequence loaded from the Flash memory. In principle, an ascending sequence of decimal numbers should be observed in the 7-segment LED display devices. 
+
+Before continuing, it is necessary to have available the code files, namely Top_Basys3.vhd, MPM_cpu.vhd, behavioral_hex2led.vhd, deboucing_mod.vhd and double_pulse.vhd, which are coded in VHDL language, and the Top_Basys3.xdc file, with the hardware restrictions and the terminal assignment required for this project.  
+
+==== Step 2. Run the Vivado design environment
+
+Simply find the application icon on your desktop and start the program.
+
+[[Figure-A_1]]
+.Start window of the Vivado environment.
+image::figures/Figure_A2_01.png["Figure_A2_01"]
+
+==== Step 3. Create a new project 
+
+Go to the section of the window named Quick Start and click on the "Create New Project" icon.
+
+[[Figure-A_2]]
+.Wizard window for a new project.
+image::figures/Figure_A2_02.png["Figure_A2_02"]
+
+The "New Project" wizard window opens, press the <Next> button. Then enter the name of the project, for example "myPostCPU" and define the path of the project. The path must not contain any space characters. Leave the other options at their default values and press the <Next> button.
+
+[[Figure-A_3]]
+.Window for naming the project.
+image::figures/Figure_A2_03.png["Figure_A2_03"]
+
+In the window shown, the "Project Type" options appear. Choose the option "<*>RTL Project". This is where you should add to the project the codes with .vhd extension, which are precisely the VHDL source code. Then, check that the option "Do not specify sources at this time" is not checked and press the <Next> button.
+
+[[Figure-A_4]]
+.Window for specifying the project type.
+image::figures/Figure_A2_04.png["Figure_A2_04"]
+
+Then, in the new "Add Sources" window, press the <Add Files> button.
+
+[[Figure-A_5]]
+.Window for adding source files to the project.
+image::figures/Figure_A2_05.png["Figure_A2_05"]
+
+Then, proceed to search and add the source files Top_Basys3.vhd, MPM_cpu.vhd, behavioral_hex2led.vhd, deboucing_mod.vhd and double_pulse.vhd. 
+
+[[Figure-A_6]]
+.Window to search and select the source files for the project.
+image::figures/Figure_A2_06.png["Figure_A2_06"]
+
+Select all VHDL files and press the <OK> button.
+
+[[Figure-A_7]]
+.Window to confirm the addition of project source files.
+image::figures/Figure_A2_07.png["Figure_A2_07"]
+
+To conclude the addition of the source code, in the "Add Sources" window, check that the option "<*> Copy Sources into project" is checked and that VHDL appears as the target language. Then, you can press the <Next> button.
+
+At this point, the window for adding IP blocks (third party intellectual property blocks) "Add Existing IP (optional)" appears. Although we are going to use a counter and a couple of memory blocks, defined by Xilinx as IP blocks, we have not synthesized them yet. Therefore, omit this option by pressing the <Next> button.
+
+[[Figure-A_8]]
+.Window for adding constraint files to the project.
+image::figures/Figure_A2_08.png["Figure_A2_08"]
+
+Then, in the new "Add or Create Constraints (optional)" window, press the <Add Files> button. Then, find and add the Top_Basys3.xdc constraint file. Once the constraint file is selected, press the <OK> button and, returning to the "Add or Create Constraints (optional)" window, check the "<*> Copy Sources into project" option and press the <Next> button.
+
+[[Figure-A_9]]
+.Window to confirm the addition of the constraints file for the project.
+image::figures/Figure_A2_09.png["Figure_A2_09"]
+
+Now, the "Default Part" options appear. You have to specify the characteristics of the FPGA device present on the development board. Specifically, for the Basys3 board, the required information is as follows:
+
+* Family: Artix-7
+
+* Package: CPG236
+
+* Part: xc7a35tcpg236-1
+
+[[Figure-A_10]]
+.Window to select the target FPGA.
+image::figures/Figure_A2_10.png["Figure_A2_10"]
+
+Press the <Next> button, to see the project summary. Then, press the <Finish> button. Up to this point, the project includes most of the necessary codes. You can review the added codes by double-clicking on each one in the code list in the Hierarchy view of the Sources window.
+
+The missing codes will be generated automatically when the required IP blocks are entered. Specifically, within the Top_Basys3.vhd file, reference is made to the Bin_Counter, RAM_256x1 and ROM_256x4 components. Therefore, we will now create these IP components.
+
+==== Step 4. Include the binary counter IP block
+
+In the left margin window, "Flow Navigator", go to the "Project Manager" section and click on the "IP Catalog" icon. 
+[[Figure-A_11]]
+.Position of the IP catalog icon in the main project window.
+image::figures/Figure_A2_11.png["Figure_A2_11"]
+
+In the component catalog (Cores), go to the Basic Elements folder and then to the Counters subfolder. Select the "Bynary Counter" component with a double-click. 
+
+[[Figure-A_12]]
+.Position of the IP block option for a binary counter.
+image::figures/Figure_A2_12.png["Figure_A2_12"]
+
+Specify the name of the counter component as Bin_Counter. On the "Basic" tab, set the value 24 for the Output Width parameter.  
+
+[[Figure-A_13]]
+.Basic specification for the binary counter IP block.
+image::figures/Figure_A2_13.png["Figure_A2_13"]
+
+Leave the other options at their default values and press the <OK> button. Then the following window will appear, asking us to start the generation of the IP block for the Binary Counter (Bin_Counter.xci). 
+
+[[Figure-A_14]]
+.Window for initiating the generation of the binary counter's IP block.
+image::figures/Figure_A2_14.png["Figure_A2_14"]
+
+Leave the default values and press the <Generate> button to start the IP component synthesis. Confirmation is also requested to generate the block on the background ("out of context"), accept. After a couple of minutes, the generated information for the counter is displayed and the new component is listed in the IP block view ("IP_Sources") of the "Sources" window.
+
+[[Figure-A_15]]
+.Result of the generation of the IP block for the binary counter.
+image::figures/Figure_A2_15.png["Figure_A2_15"]
+
+==== Step 5. Include an RAM IP block
+
+Similar to the previous step, in the left margin window, "Flow Navigator", go to the "Project Manager" section and, again, click on the "IP Catalog" icon. In the Cores catalog, go to the Memories & Storage Elements folder and then to the RAMs & ROMs & BRAM subfolder. Then, double-click the "Block Memory Generator" component.
+
+[[Figure-A_16]]
+.Position of the required memory IP block option.
+image::figures/Figure_A2_16.png["Figure_A2_16"]
+
+Specify the name of the memory component as RAM_256x1. Then, on the "Basic" tab, check that the Interface type is "Native" and the Memory type is "Single Port RAM". Leave the other options on this tab at their default values.
+
+[[Figure-A_17]]
+.Basic RAM IP block specification.
+image::figures/Figure_A2_17.png["Figure_A2_17"]
+
+Go to the "Port A Options" tab and check that the Memory Size is as required:
+
+* Write Width = 1
+
+* Read Width = 1
+
+* Write Depth = 256
+
+* Read Depth = 256
+
+Also, check that the Operating Mode is "Write First".
+
+[[Figure-A_18]]
+.Port A options specification for RAM IP block.
+image::figures/Figure_A2_18.png["Figure_A2_18"]
+
+This is where we must specify the file with the data to preload the registers in memory. In this case, since it is the RAM memory, the file that fulfills this function is the one with the name RAM_init.coe. This file contains the initialization values for the RAM (the data that will be processed by the EPM's CPU). It is not a file with VHDL source code, so it was not imported into the project in step 3. However, any file with extension. coe must be added manually in the path where the project source files were imported. For example, a typical path for the imported source files is as follows:
+
+----
+C:\user_path\myPostCPU\myPostCPU.srcs\sources_1\imports\source\
+----
+
+Then, before proceeding, it is necessary that all files with extension. coe are copied to this folder and are beside the VHDL source files.
+
+Once the above is done, go to the "Other Options" tab and in the "Memory initialization" section, check the "<*> Load Init File" option. Then, using the <Browse> button, search inside the source files path and load the RAM_init.coe file. 
+
+[[Figure-A_19]]
+.Other options specification for RAM IP block.
+image::figures/Figure_A2_19.png["Figure_A2_19"]
+
+At this point, leave the other options at their default values and press the <OK> button. Then the following window appears asking us to confirm the creation of the RAM memory block (RAM_256x1.xci). 
+
+[[Figure-A_20]]
+.Window for initiating the RAM IP block generation.
+image::figures/Figure_A2_20.png["Figure_A2_20"]
+
+To conclude this IP block, leave the default values and press the <Generate> button to start the IP component synthesis. Also confirm that the generation is done on the background ("out of context"). After a couple of minutes, the generated information for the RAM is displayed and the new component is listed in the IP block view ("IP_Sources") of the "Sources" window.
+
+==== Step 6. Include an ROM IP block
+
+In a very similar way to the previous step, click on the "IP Catalog" icon and, in the component catalog (Cores), go back to the Memories & Storage Elements folder, select the RAMs & ROMs & BRAM subfolder and open the "Block Memory Generator" component window by double-clicking it.
+
+[[Figure-A_21]]
+.Basic ROM IP block specification.
+image::figures/Figure_A2_21.png["Figure_A2_21"]
+
+This time, specify the name of the memory component as ROM_256x4. In the "Basic" tab, check that the Interface type is "Native" and the Memory type is "Single Port ROM". The other options in this tab are left with the default values.  
+
+[[Figure-A_22]]
+.Port A options specification for ROM IP block.
+image::figures/Figure_A2_22.png["Figure_A2_22"]
+
+Go to the "Port A Options" tab and check the Memory Size is as required:
+
+* Port A Width = 4
+
+* Port A Depth = 256	
+
+[[Figure-A_23]]
+.Other options specification for ROM IP block.
+image::figures/Figure_A2_23.png["Figure_A2_23"]
+
+To conclude the ROM, go to the "Other Options" tab and in the "Memory initialization" section, check the "<*> Load Init File" option. Using the <Browse> button, search within the source files path and load the ROM_init.coe file containing the initialization values for the ROM. If you check the content of this file, you can verify that it is, precisely, the machine code of the program that will execute the EPM's CPU. Specifically, the contents of the ROM_init.coe file contains the machine code of the increment program obtained step by step in Chapter 2. 
+
+To continue, leave the other options at their default values and press the <OK> button.
+
+Then, the last window appears requesting confirmation to create the ROM block (ROM_256x4.xci). Similar to the last time and to conclude with this IP block, leave the default values and press the <Generate> button. Also confirm that the generation is done in the background ("out of context"). After a couple of minutes, the generated information for the ROM is displayed and the new component is also listed in the view of the IP blocks ("IP_Sources") in the "Sources" window.
+
+==== Step 7. Build the project and generate the bit stream file
+
+In the left margin window, "Flow Navigator", look for the "Program and Debug" section and click on the "Generate Bitstream" icon. Since the project has not been previously synthesized neither implemented, the following message appears.
+
+[[Figure-A_24]]
+.Confirmation request to start the synthesis, implementation and bit stream generation.
+image::figures/Figure_A2_24.png["Figure_A2_24"]
+
+To start the sequence for synthesis, implementation and bit stream generation, press the <Yes> button. If no error was made, the following message appears at the end of the processing sequence.
+
+[[Figure-A_25]]
+.Message for successful completion of bit stream generation and request to open the hardware manager.
+image::figures/Figure_A2_25.png["Figure_A2_25"]
+
+Check the option "<*> Open Hardware Manager" is selected and press the <OK> button. Now you can proceed with the FPGA programming, with the help of the "Hardware Manager".  Before continuing, check that the Basys3 card is connected and turned on.
+
+==== Step 8. Load the built project into the target FPGA
+
+An information bar with the message "¡ No hardware target is open" appears at the top of the hardware manager window.
+
+[[Figure-A_26]]
+.Position of the link to start the project loading into the target FPGA.
+image::figures/Figure_A2_26.png["Figure_A2_26"]
+
+After click on the Open target link, within the options menu than appears, choose "Auto Connect". This updates the information bar of the "Hardware Manager" window and the message "¡ There are no debug cores" appears. 
+
+[[Figure-A_27]]
+.Options for completing the bit stream loading into the FPGA.
+image::figures/Figure_A2_27.png["Figure_A2_27"]
+
+Click the Program Device link, and then select the target FPGA device. Since a Basys3 card is assumed, the device of interest must be identified as xc7a35t_0. Then, the window for searching the bit stream file to be programmed appears. 
+
+[[Figure-A_28]]
+.Path specifying the project bit stream file location.
+image::figures/Figure_A2_28.png["Figure_A2_28"]
+
+In principle and by default, the bit file (. bit) generated by the project's build sequence must appear. If the bit file does not appear, i.e. a file with the extension .bit, then it must be found in the project folder. A typical path where this binary file can be found is as follows: 
+
+----
+C:\user_path\myPostCPU\myPostCPU.runs\impl_1\Basys3_system.bit
+----
+
+Note that the name of the file with the. bit extension corresponds exactly with the name of the highest level entity of the project, in this case the Basys3_system entity that was defined in the Top_Basys3.vhd file. 
+
+Once the bit stream file has been located and the advance shown in above Figure has been reached, the default options are left as they are and the <Program> button may be pressed.
+
+If all the previous steps were completed without any problem, the user will be able to check that the digital system mounted on the Basys3 card behaves as expected and therefore it can be said, with complete satisfaction, that the practical realization of Enhanced Post’s Machine prototype was successfully completed. 
