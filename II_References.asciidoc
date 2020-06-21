@@ -1,0 +1,22 @@
+[references]
+== Bibliography and references
+
+* **Bernstein**, J. (1981). The Analytical Engine: Computers Past, Present, and Future. USA: William Morrow & Co.
+Chu, Pong P. (2006). RTL Hardware Design Using VHDL. USA: Wiley-Interscience. 
+
+* **Digilent**. (2017). Basys 3 FPGA Board Reference Manual (DOC# 502-183). At Digilent web page: https://reference.digilentinc.com/_media/basys3:basys3_rm.pdf 
+
+* **Floyd**, T.L. (2006). Digital Fundamentals. USA: Pearson Education International.
+
+* **Mitchell**, M. (2009). Complexity: A Guided Tour. USA: Oxford University Press.
+
+* **Post**, E.L. (1936). Finite combinatory processes – formulation 1. The Journal of Symbolic Logic, Vol. 1, No. 3, pp. 103-105. 
+
+* **Turing**, A.M. (1937). On computable numbers, with an application to the Entscheidungsproblem. Proceedings of the London Mathematical Society. Vol. S2-42, No. 1, pp. 230-265. 
+
+* **Uspenski**, V.A. (1983). Post’s Machine (Little Mathematics Library). Moscow, USSR: MIR Publishers. 
+
+* **Wolf**, M. (2012). Computers as Components: Principles of Embedded Computing System Design. USA: Morgan Kaufmann.
+
+* **Xilinx**. (2017). Block Memory Generator v8.3: LogiCORE IP Product Guide (PG058). At Xilinx web page: https://www.xilinx.com/support/documentation/ip_documentation/blk_mem_gen/v8_3/pg058-blk-mem-gen.pdf
+
