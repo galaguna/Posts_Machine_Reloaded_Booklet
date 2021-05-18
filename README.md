@@ -61,7 +61,7 @@ The tag [first_Spanish_edition](https://github.com/galaguna/Posts_Machine_Reload
 
 This "Free Culture" compliant license was adopted by my publisher CopIt-arXives (http://scifunam.fisica.unam.mx/mir/copit/index.html), who understands the value of open editions. Of course, CopIt-arXives is also a strong supporter of this open culture and the sharing of knowledge.
 
-Thank you CopIt-arXives!
+Thanks to CopIt-arXives!
 
 ## The Post’s Machine Reloaded - Translated English Edition
 
