@@ -31,9 +31,9 @@ IP::  Instruction Pointer.
 
 LED:: Light-Emitting Diode.
 
-LSB:: Least Significant Bit.
+LSB:: Least Significant Bits.
 
-MSB:: Most Significant Bit.
+MSB:: Most Significant Bits.
 
 nibble:: Half a byte, i.e. a 4-bit group or tuple.
 
