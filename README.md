@@ -3,7 +3,7 @@ Code source for the design, implementation and programming of a small and functi
 
 # The Post’s Machine Reloaded: Design, Implementation and Programming of a Small and Functional CPU Prototype
 
-This repository contains the complete original code for both the [first Spanish edition, Open Edition eBook](https://github.com/galaguna/Posts_Machine_Reloaded_Booklet/releases/tag/First_Spanish_Edition), in process of be published, and the [first English edition, Open Edition eBook](https://github.com/galaguna/Posts_Machine_Reloaded_Booklet/releases/tag/First_English_Edition), in process of be published too.
+This repository contains the complete original code for the published [first Spanish edition, Open Edition eBook](https://github.com/galaguna/Posts_Machine_Reloaded_Booklet/releases/tag/First_Spanish_Edition), and the [first English edition, Open Edition eBook](https://github.com/galaguna/Posts_Machine_Reloaded_Booklet/releases/tag/First_English_Edition), both available from this repository.
 
 In the refered booklet, the complete development of the design, implementation and programming of the prototype for a small central processing unit (CPU) is presented, starting with an improved variant of the Post’s Machine. The Post’s Machine is a theoretical development similar to that of Alan Turing, the famous mathematician considered to be one of the fathers of modern computing, although developed by Emil Post in an entirely original and independent way. The Post’s Machine is much simpler than Turing's, therefore, given its relative simplicity, it allows those interested to be introduced, in a clear way, to the basic concepts related to the operation of virtually every modern digital CPU. 
 
@@ -43,11 +43,13 @@ To read this book, click on each of the chapters to read in your browser.
 
 # Published
 
-"The Post’s Machine Reloaded: Design, Implementation and Programming of a Small and Functional CPU Prototype" is an translated English version of the original Spanish booklet, "La M&aacute;quina de Post actualizada", that I hope soon will be available in eBook format (Open Edition), for free under compatible CC BY-NC-SA license, at the publisher web page:
+"The Post’s Machine Reloaded: Design, Implementation and Programming of a Small and Functional CPU Prototype" is an translated English version of the original Spanish booklet, "La M&aacute;quina de Post actualizada", that is available in eBook format (Open Edition), for free under compatible CC BY-NC-SA license, at the publisher web page:
 
-* [CopIt-arXives](http://scifunam.fisica.unam.mx/mir/copit/index.html)
+* [CopIt-arXives](http://scifunam.fisica.unam.mx/mir/copit/LT0002ES/LT0002ES.html)
 
-The eBook "The Post’s Machine Reloaded", my own English translation from the Spanish Edition, I hope will be soon available, also for free under CC BY-NC-SA license, at the Academia.edu platform: https://www.academia.edu/
+The eBook "The Post’s Machine Reloaded", my own English translation from the Spanish Edition, is available, also for free under CC BY-NC-SA license, at the Academia.edu platform: 
+
+* [Academia.edu](https://www.academia.edu/49135396/The_Post_s_Machine_Reloaded_Design_Implementation_and_Programming_of_a_Small_and_Functional_CPU_Prototype)
 
 # Source
 
