@@ -45,7 +45,7 @@ To read this book, click on each of the chapters to read in your browser.
 
 "The Post’s Machine Reloaded: Design, Implementation and Programming of a Small and Functional CPU Prototype" is an translated English version of the original Spanish booklet, "La M&aacute;quina de Post actualizada", that is available in eBook format (Open Edition), for free under compatible CC BY-NC-SA license, at the publisher web page:
 
-* [CopIt-arXives](http://scifunam.fisica.unam.mx/mir/copit/LT0002ES/LT0002ES.html)
+* [CopIt-arXives](https://copitarxives.fisica.unam.mx/LT0002ES/LT0002ES.php)
 
 The eBook "The Post’s Machine Reloaded", my own English translation from the Spanish Edition, is available, also for free under CC BY-NC-SA license, at the Academia.edu platform: 
 
@@ -61,7 +61,7 @@ The tag [first_Spanish_edition](https://github.com/galaguna/Posts_Machine_Reload
 
 <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/3.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/Text" property="dct:title" rel="dct:type">La M&aacute;quina de Post actualizada - Spanish Edition</span> by Gerardo A. Laguna-Sanchez </a> is licensed under a compatible <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Creative Commons Attribution-NonCommercial-ShareAlike 3.0 International License</a>.
 
-This "Free Culture" compliant license was adopted by my publisher CopIt-arXives (http://scifunam.fisica.unam.mx/mir/copit/index.html), who understands the value of open editions. Of course, CopIt-arXives is also a strong supporter of this open culture and the sharing of knowledge.
+This "Free Culture" compliant license was adopted by my publisher CopIt-arXives (https://copitarxives.fisica.unam.mx/index.php), who understands the value of open editions. Of course, CopIt-arXives is also a strong supporter of this open culture and the sharing of knowledge.
 
 Thanks to CopIt-arXives!
 
